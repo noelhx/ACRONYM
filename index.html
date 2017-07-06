@@ -46,13 +46,17 @@
       </span>
     </div>
      <!-- The data menu that is displayed when user searches for an acronym -->
-     <textarea class="form-control" readonly rows="7" id="dataMenu" ng-show="setDisplay" ng-click="infoPage()">{{results}}</textarea>
+     <div class="form-control" style="height:150px; overflow:auto">
+      <p id="dataMenu" ng-show="setDisplay" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x, $index)"></p>
+     </div>
+     <!-- <textarea class="form-control" readonly rows="7" id="dataMenu" ng-show="setDisplay" ng-click="infoPage()">{{results}}</textarea> -->
 
      <br>
-
-    <div class="form-control" style="height:150px; overflow:auto" ng-init="count=0">
-     <p id="data" ng-init="count = count + 1" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x, count)"></p>
+<!--
+    <div class="form-control" style="height:150px; overflow:auto">
+     <p id="data" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x, $index)"></p>
     </div>
+-->
 
   <!-- The "Add Acronym" button displayed on the main page -->
   <div ng-controller="addAcronymCtrl">
