@@ -27,6 +27,7 @@ con.connect(function(err) {
 });
 
 // Define routes here...
+
 /* Homepage */
 app.get('/', function (req, res)
 {
@@ -49,14 +50,6 @@ app.get('/privacypolicy', function (req, res)
 app.get('/contact', function (req, res)
 {
   return res.sendFile('C://WebApp2/contact.html');
-});
-
-/* Route for information page that appears when user clicks on a search result */
-app.post('/info/:jsObj/:index', function(req, res)
-{
-  var jsObj = JSON.parse(req.params.jsObj);
-  var index = req.params.index;
-  return res.end();
 });
 
 /* Route for when user adds an acronym to database */

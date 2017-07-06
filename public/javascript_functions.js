@@ -54,19 +54,19 @@ app.controller("addAcronymCtrl", function($scope, $http)
   }
 });
 
-/* Executed when user types into search box */
-app.controller("searchCtrl", function($scope, $http)
+/* Search controller */
+app.controller("searchCtrl", function($scope, $http, $location)
 {
+  /* User clicks on a search result */
   $scope.infoPage = function infoPage(index)
   {
-    var req = new XMLHttpRequest();
-    var jsObj = $scope.jsObj;
-    console.log(jsObj);
-    console.log(jsObj.acronym[index]);
-    req.open("POST","/info/"+jsObj+"/"+index, true);
-    req.send(null);
+    var acronym = $scope.jsObj.acronym[index];
+    var def = $scope.jsObj.definition[index];
+    var comment = $scope.jsObj.comment[index];
+    $scope.information = true;
   };
 
+  /* User types into search bar */
   $scope.search = function search()
   {
     var str = document.getElementById("searchInput").value;
