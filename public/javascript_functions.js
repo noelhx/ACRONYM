@@ -57,11 +57,17 @@ app.controller("addAcronymCtrl", function($scope, $http)
 /* Executed when user types into search box */
 app.controller("searchCtrl", function($scope, $http)
 {
+  $scope.jsObj = {   //javascript object that keeps track of the resulting acronyms, definitions, and their comments when user searches
+    acronym: [],
+    definition: [],
+    comment: []
+  };
   $scope.records = [];
-  $scope.infoPage = function infoPage(x)
+  $scope.infoPage = function infoPage(x, count)
   {
     var req = new XMLHttpRequest();
     console.log(x);
+    console.log(count);
     //req.open("POST","/acronym/"+data, true);
   };
 
@@ -94,7 +100,11 @@ app.controller("searchCtrl", function($scope, $http)
             for (i in jsonResults.acronym)
             {
               $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i] + "  " + jsonResults.comment[i]);
-              results += jsonResults.acronym[i] + ": " + jsonResults.definition[i] + "  " + jsonResults.comment[i] + "\n\n";
+              results += jsonResults.acronym[i] + ": " + jsonResults.definition[i] + "\n\n";
+
+              $scope.jsObj.acronym.push(jsonResults.acronym[i]);
+              $scope.jsObj.definition.push(jsonResults.definition[i]);
+              $scope.jsObj.comment.push(jsonResults.comment[i]);
             }
           }
           $scope.results = results;

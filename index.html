@@ -50,8 +50,8 @@
 
      <br>
 
-    <div class="form-control" style="height:150px; overflow:auto">
-     <p id="data" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x)"></p>
+    <div class="form-control" style="height:150px; overflow:auto" ng-init="count=0">
+     <p id="data" ng-init="count = count + 1" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x, count)"></p>
     </div>
 
   <!-- The "Add Acronym" button displayed on the main page -->
