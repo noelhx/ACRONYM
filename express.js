@@ -33,12 +33,6 @@ app.get('/', function (req, res)
   return res.sendFile('C://WebApp2/index.html');
 });
 
-app.get('/acronym/:acr', function(req, res)
-{
-  console.log(req.params.acr);
-  return res.end();
-});
-
 /* About page */
 app.get('/about', function (req, res)
 {
@@ -57,6 +51,17 @@ app.get('/contact', function (req, res)
   return res.sendFile('C://WebApp2/contact.html');
 });
 
+/* Route for information page that appears when user clicks on a search result */
+app.post('/info/:jsonInfo/:index', function(req, res)
+{
+  var jsonInfo = req.params.jsonInfo;
+  console.log("jsonInfo is " + req.params.jsonInfo);
+  console.log("\n");
+  console.log("Index is " + req.params.index);
+  return res.end();
+});
+
+/* Route for when user adds an acronym to database */
 app.post('/add/:acronym/:def/:comment', function(req, res)
 {
   var acronym = req.params.acronym;
@@ -70,6 +75,7 @@ app.post('/add/:acronym/:def/:comment', function(req, res)
   });
 });
 
+/* Route for when user searches for an acronym */
 app.post('/query/:string', function(req, res)
 {
   var string = req.params.string + "%";   // Need to append '%' sign to generate all possible results

@@ -46,8 +46,8 @@
       </span>
     </div>
      <!-- The data menu that is displayed when user searches for an acronym -->
-     <div class="form-control" style="height:150px; overflow:auto">
-      <p id="dataMenu" ng-show="setDisplay" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage(x, $index)"></p>
+     <div class="form-control" ng-show="setDisplay" style="height:150px; overflow:auto">
+      <p id="dataMenu" ng-repeat="x in records" ng-bind-html="x" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-click="infoPage($index)"></p>
      </div>
      <!-- <textarea class="form-control" readonly rows="7" id="dataMenu" ng-show="setDisplay" ng-click="infoPage()">{{results}}</textarea> -->
 

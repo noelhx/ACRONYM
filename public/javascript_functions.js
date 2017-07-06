@@ -57,26 +57,26 @@ app.controller("addAcronymCtrl", function($scope, $http)
 /* Executed when user types into search box */
 app.controller("searchCtrl", function($scope, $http)
 {
-  $scope.infoPage = function infoPage(x, count)
+  $scope.infoPage = function infoPage(index)
   {
+    //var acronym = $scope.jsObj.acronym[index];
+    var jsonInfo = JSON.stringify($scope.jsObj);
     var req = new XMLHttpRequest();
-    console.log(x);
-    console.log(count);
-    //req.open("POST","/acronym/"+data, true);
+    req.open("POST","/info/"+jsonInfo+"/"+index, true);
+    req.send(null);
   };
 
   $scope.search = function search()
   {
     var str = document.getElementById("searchInput").value;
     var req = new XMLHttpRequest();
-    var results = "";
     $scope.records = [];
     $scope.jsObj = {   // javascript object that keeps track of the resulting acronyms, definitions, and their comments when user searches
       acronym: [],
       definition: [],
       comment: []
     };
-    if (str.length == 0)
+    if (str.length == 0 || str == '/' || str == '?' || str == "." || str == "=" || str == '\'') // Check that the search characters are valid to perform a query
     {
       $scope.setDisplay = false;
       $scope.text1 = false;
@@ -100,15 +100,13 @@ app.controller("searchCtrl", function($scope, $http)
           {
             for (i in jsonResults.acronym)
             {
-              $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i] + "  " + jsonResults.comment[i]);
-              results += jsonResults.acronym[i] + ": " + jsonResults.definition[i] + "\n\n";
+              $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i]);
 
               $scope.jsObj.acronym.push(jsonResults.acronym[i]);
               $scope.jsObj.definition.push(jsonResults.definition[i]);
               $scope.jsObj.comment.push(jsonResults.comment[i]);
             }
           }
-          $scope.results = results;
           $scope.setDisplay = true;
           $scope.text1 = true;
           $scope.text2 = true;
