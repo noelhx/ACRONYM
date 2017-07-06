@@ -94,7 +94,7 @@ app.post('/query/:string', function(req, res)
         jsObj.definition.push(defToAdd);
         var commentToAdd = result[i].cmt;
         if (commentToAdd == null)
-          commentToAdd = "No comment";
+          commentToAdd = "No comments";
         jsObj.comment.push(commentToAdd);
       }
       res.json(jsObj);  //.json method converts the javascript object to a JSON string and sends it as response

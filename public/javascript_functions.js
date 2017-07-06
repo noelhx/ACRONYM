@@ -63,7 +63,10 @@ app.controller("searchCtrl", function($scope, $http, $location)
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
-    $scope.information = true;
+    $scope.acronym = acronym;
+    $scope.definition = def;
+    $scope.comment = comment;
+    $("#infoModal").modal();
   };
 
   /* User types into search bar */
