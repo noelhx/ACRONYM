@@ -59,10 +59,11 @@ app.controller("searchCtrl", function($scope, $http)
 {
   $scope.infoPage = function infoPage(index)
   {
-    //var acronym = $scope.jsObj.acronym[index];
-    var jsonInfo = JSON.stringify($scope.jsObj);
     var req = new XMLHttpRequest();
-    req.open("POST","/info/"+jsonInfo+"/"+index, true);
+    var jsObj = $scope.jsObj;
+    console.log(jsObj);
+    console.log(jsObj.acronym[index]);
+    req.open("POST","/info/"+jsObj+"/"+index, true);
     req.send(null);
   };
 

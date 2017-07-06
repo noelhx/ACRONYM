@@ -52,12 +52,10 @@ app.get('/contact', function (req, res)
 });
 
 /* Route for information page that appears when user clicks on a search result */
-app.post('/info/:jsonInfo/:index', function(req, res)
+app.post('/info/:jsObj/:index', function(req, res)
 {
-  var jsonInfo = req.params.jsonInfo;
-  console.log("jsonInfo is " + req.params.jsonInfo);
-  console.log("\n");
-  console.log("Index is " + req.params.index);
+  var jsObj = JSON.parse(req.params.jsObj);
+  var index = req.params.index;
   return res.end();
 });
 
