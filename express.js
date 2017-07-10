@@ -52,13 +52,25 @@ app.get('/contact', function (req, res)
   return res.sendFile('C://WebApp2/contact.html');
 });
 
+/* Route for when user clicks on search result and the acronym clicks needs to be incremented */
+app.post('/increment/:acronym', function(req, res)
+{
+  var acronym = req.params.acronym;
+  var sql = "UPDATE acronym_table SET clicks = clicks + 1 WHERE acronym = '" + acronym + "'";
+  con.query(sql, function(err, result, fields)
+  {
+    if (err) throw err;
+    res.end();
+  });
+});
+
 /* Route for when user adds an acronym to database */
 app.post('/add/:acronym/:def/:comment', function(req, res)
 {
   var acronym = req.params.acronym;
   var def = req.params.def;
   var comment = req.params.comment;
-  var sql = "INSERT INTO acronym_table (acronym, definition, cmt) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "')";
+  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0')";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
@@ -70,11 +82,12 @@ app.post('/add/:acronym/:def/:comment', function(req, res)
 app.post('/query/:string', function(req, res)
 {
   var string = req.params.string + "%";   // Need to append '%' sign to generate all possible results
-  var sql = "SELECT * FROM acronym_table WHERE acronym LIKE '" +string+ "' ORDER BY acronym";
+  var sql = "SELECT * FROM acronym_table WHERE (acronym LIKE '" +string+ "') OR (definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   var jsObj = {   //javascript object that will be converted to JSON text when response is sent
     acronym: [],
     definition: [],
-    comment: []
+    comment: [],
+    clicks: []
   };
 
   con.query(sql, function(err, result, fields)
@@ -96,6 +109,8 @@ app.post('/query/:string', function(req, res)
         if (commentToAdd == null)
           commentToAdd = "No comments";
         jsObj.comment.push(commentToAdd);
+        var clicksToAdd = result[i].clicks;
+        jsObj.clicks.push(clicksToAdd);
       }
       res.json(jsObj);  //.json method converts the javascript object to a JSON string and sends it as response
     }

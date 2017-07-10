@@ -63,9 +63,17 @@ app.controller("searchCtrl", function($scope, $http, $location)
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
+    // Update the scope with the information about the acronym, definition, and comment(s)
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
+    // Send request to MySQL acronym database to increment clicks
+    var req = new XMLHttpRequest();
+    req.open("POST","/increment/"+acronym, true);
+    req.send(null);
+    var clicks = $scope.jsObj.clicks[index];
+    $scope.clicks = clicks;
+    // Launch the information modal
     $("#infoModal").modal();
   };
 
@@ -78,7 +86,8 @@ app.controller("searchCtrl", function($scope, $http, $location)
     $scope.jsObj = {   // javascript object that keeps track of the resulting acronyms, definitions, and their comments when user searches
       acronym: [],
       definition: [],
-      comment: []
+      comment: [],
+      clicks: []
     };
     if (str.length == 0 || str == '/' || str == '?' || str == "." || str == "=" || str == '\'') // Check that the search characters are valid to perform a query
     {
@@ -109,6 +118,7 @@ app.controller("searchCtrl", function($scope, $http, $location)
               $scope.jsObj.acronym.push(jsonResults.acronym[i]);
               $scope.jsObj.definition.push(jsonResults.definition[i]);
               $scope.jsObj.comment.push(jsonResults.comment[i]);
+              $scope.jsObj.clicks.push(jsonResults.clicks[i]);
             }
           }
           $scope.setDisplay = true;
