@@ -22,15 +22,15 @@ footer {
     background-color: #e1e1ea;
 }
 
-.modal {
-  position: fixed;
-  top: 20%;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
-  display: none;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  outline: 0;
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 140%;
+  padding: 15px;
+  width: auto;
+}
+
+.navbar{
+  min-height:64px;
 }

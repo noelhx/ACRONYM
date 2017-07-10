@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, '/')));   // Use this directory (C:/
 app.use(express.static(path.join(__dirname, 'public')));  // Use the /public folder
 
 var server = app.listen(5000, function () {
-    console.log('Node server is running on http://localhost:5000...');
+    console.log('Node server is running on http://localhost:5000... (10.91.160.56:5000)');
 });
 
 // Establish connection to acronym_import database
