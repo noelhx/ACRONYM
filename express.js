@@ -65,12 +65,13 @@ app.post('/increment/:acronym', function(req, res)
 });
 
 /* Route for when user adds an acronym to database */
-app.post('/add/:acronym/:def/:comment', function(req, res)
+app.post('/add/:acronym/:def/:comment/:business', function(req, res)
 {
   var acronym = req.params.acronym;
   var def = req.params.def;
   var comment = req.params.comment;
-  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0')";
+  var business = req.params.business;
+  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '"+business+"')";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
@@ -87,7 +88,8 @@ app.post('/query/:string', function(req, res)
     acronym: [],
     definition: [],
     comment: [],
-    clicks: []
+    clicks: [],
+    business: []
   };
 
   con.query(sql, function(err, result, fields)
@@ -103,14 +105,14 @@ app.post('/query/:string', function(req, res)
       {
         var acronymToAdd = result[i].acronym;
         var defToAdd = result[i].definition;
+        var commentToAdd = result[i].cmt;
+        var clicksToAdd = result[i].clicks;
+        var businessToAdd = result[i].business;
         jsObj.acronym.push(acronymToAdd);
         jsObj.definition.push(defToAdd);
-        var commentToAdd = result[i].cmt;
-        if (commentToAdd == null)
-          commentToAdd = "No comments";
         jsObj.comment.push(commentToAdd);
-        var clicksToAdd = result[i].clicks;
         jsObj.clicks.push(clicksToAdd);
+        jsObj.business.push(businessToAdd);
       }
       res.json(jsObj);  //.json method converts the javascript object to a JSON string and sends it as response
     }

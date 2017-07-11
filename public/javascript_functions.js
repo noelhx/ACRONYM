@@ -3,11 +3,21 @@ var app = angular.module("acronymApp", ["ngSanitize"]);
 /* Executed when user clicks the "Add!" button on add acronym form */
 app.controller("addAcronymCtrl", function($scope, $http)
 {
+  $scope.toggleElements = function toggleElements()
+  {
+    $scope.addAcronymElements = !($scope.addAcronymElements);
+    // Clear the text boxes in the add form
+    document.getElementById("abbrev").value = "";
+    document.getElementById("def").value = "";
+    document.getElementById("comment").value = "";
+  };
+
   $scope.add = function add()
   {
     var abbrev = document.getElementById("abbrev");
     var def = document.getElementById("def");
     var comment = document.getElementById("comment");
+    var business = document.getElementById("businessGroup");
     // Check if abbreviation or definition fields are blank
     if (abbrev.value == "")
     {
@@ -30,10 +40,15 @@ app.controller("addAcronymCtrl", function($scope, $http)
     if (comment.value == "")
     {
       // if no comment, set value to null
-      comment.value = null;
+      comment.value = "No comment";
+    }
+    if (business.value == "")
+    {
+      // if no business selected, set value to "None"
+      business.value = "None";
     }
     var req = new XMLHttpRequest();
-    req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value, true);
+    req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value+"/"+business.value, true);
     req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
     function pollStateChange()
     {
@@ -63,10 +78,12 @@ app.controller("searchCtrl", function($scope, $http, $location)
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
+    var business = $scope.jsObj.business[index];
     // Update the scope with the information about the acronym, definition, and comment(s)
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
+    $scope.business = business;
     // Send request to MySQL acronym database to increment clicks
     var req = new XMLHttpRequest();
     req.open("POST","/increment/"+acronym, true);
@@ -87,7 +104,8 @@ app.controller("searchCtrl", function($scope, $http, $location)
       acronym: [],
       definition: [],
       comment: [],
-      clicks: []
+      clicks: [],
+      business: []
     };
     if (str.length == 0 || str == '/' || str == '?' || str == "." || str == "=" || str == '\'') // Check that the search characters are valid to perform a query
     {
@@ -119,6 +137,7 @@ app.controller("searchCtrl", function($scope, $http, $location)
               $scope.jsObj.definition.push(jsonResults.definition[i]);
               $scope.jsObj.comment.push(jsonResults.comment[i]);
               $scope.jsObj.clicks.push(jsonResults.clicks[i]);
+              $scope.jsObj.business.push(jsonResults.business[i]);
             }
           }
           $scope.setDisplay = true;

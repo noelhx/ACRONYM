@@ -33,162 +33,189 @@
 
 <div ng-app="acronymApp">
   <div ng-controller="searchCtrl">
-    <!-- The RA logo and Acronym Database header -->
-    <div style="margin-top:80px"></div>
+
+      <!-- the Acronym Database logo image -->
+      <div style="margin-top:80px"></div>
+        <div class="container">
+          <img alt="acronym-database" class="img-responsive center-block" src="/public/acronym-database.png"></img>
+          <br>
+        </div>
+
+      <!-- Modal containing information about the acronym-->
       <div class="container">
-        <img alt="acronym-database" class="img-responsive center-block" src="/public/acronym-database.png"></img>
-        <br>
-      </div>
-
-    <!-- Modal containing acronym's information -->
-    <div class="container">
-      <div id="infoModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
-            </div>
-            <div class="modal-body">
-              <h4>Meaning:</h4>
-              <p>{{definition}}</p>
-              <h4>Comment(s):</h4>
-              <p>{{comment}}</p>
-              <h4>Groups associated with this acronym:</h4>
-              <li>Sample group 1</li>
-              <li>Sample group 2</li>
-              <li>Sample group 3</li>
-                <br>
-              <p>Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</p>
-              <P>This acronym has been viewed {{clicks}} times</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div id="infoModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
+              </div>
+              <div class="modal-body">
+                <h4>Meaning:</h4>
+                <p>{{definition}}</p>
+                <h4>Comment(s):</h4>
+                <p>{{comment}}</p>
+                <h4>Business group associated with this acronym:</h4>
+                <p>{{business}}</p>
+              </div>
+              <div class="modal-footer">
+                <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span>
+                <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
+                <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Search bar and alert modals-->
-    <div class="container text-nowrap" id="searchBar">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2 input-group">
-          <input ng-keyup="search()" id="searchInput" type="text" class="form-control" placeholder="Search acronym here..."></input>
-          <span class="input-group-btn">
-            <button ng-click="search()" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>
-        </div>
+      <!-- the Search Bar -->
+      <div class="container text-nowrap" id="searchBar">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 input-group">
+            <div class="input-group-btn search-panel">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              	<span id="search_concept"></span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/">All</a></li>
+                <li class="divider"></li>
+                <li><a href="/">Technology</a></li>
+                <li><a href="/">RA Organization</a></li>
+              </ul>
+            </div>
+            <input class="form-control" ng-keyup="search()" id="searchInput" type="text" placeholder="Search acronym here..."></input>
+            <span class="input-group-btn">
+              <button ng-click="search()" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
 
-        <div class="col-md-8 col-md-offset-2 input-group">
           <!-- The data menu that is displayed when user searches for an acronym -->
-          <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow:auto">
-           <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
+          <div class="col-md-8 col-md-offset-2 input-group">
+            <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
+             <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
+            </div>
           </div>
         </div>
+
+         <!-- Modal that indicates user successfully added acronym -->
+         <div id="successModal" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+             <!-- Modal content-->
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title">Success!</h4>
+               </div>
+               <div class="modal-body">
+                 <p>Your acronym was added to the database. Thank you!</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <!-- Modal that alerts user to add an abbreviation if field left blank -->
+         <div id="abbrevAlert" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+             <!-- Modal content-->
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title">Oops!</h4>
+               </div>
+               <div class="modal-body">
+                 <p>Please enter an abbreviation for the acronym.</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         <!-- Modal that alerts user to add a definition if field left blank -->
+         <div id="defAlert" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+             <!-- Modal content-->
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                 <h4 class="modal-title">Oops!</h4>
+               </div>
+               <div class="modal-body">
+                 <p>Please enter a definition for the acronym.</p>
+               </div>
+               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+               </div>
+             </div>
+           </div>
+         </div>
       </div>
 
-
-       <!-- Modal that indicates user successfully added acronym -->
-       <div id="successModal" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-           <!-- Modal content-->
-           <div class="modal-content">
-             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Success!</h4>
-             </div>
-             <div class="modal-body">
-               <p>Your acronym was added to the database. Thank you!</p>
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-             </div>
-           </div>
-         </div>
-       </div>
-
-       <!-- Modal that alerts user to add an abbreviation if field left blank -->
-       <div id="abbrevAlert" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-           <!-- Modal content-->
-           <div class="modal-content">
-             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Oops!</h4>
-             </div>
-             <div class="modal-body">
-               <p>Please enter an abbreviation for the acronym.</p>
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-             </div>
-           </div>
-         </div>
-       </div>
-
-       <!-- Modal that alerts user to add a definition if field left blank -->
-       <div id="defAlert" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-           <!-- Modal content-->
-           <div class="modal-content">
-             <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">Oops!</h4>
-             </div>
-             <div class="modal-body">
-               <p>Please enter a definition for the acronym.</p>
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-             </div>
-           </div>
-         </div>
-       </div>
-    </div>
-
-
-    <div ng-controller="addAcronymCtrl">
-      <br>
-      <div ng-hide="addAcronymElements" class="text-center">
+      <div ng-controller="addAcronymCtrl">
         <br>
-        <button ng-click="addAcronymElements=true" type="button" id="add" class='btn btn-primary btn-lg'>Add Acronym</button>
-        <br>
-        <br>
-        <p ng-hide="text1" class="text-center" style="font-size:125%">Help us maintain the data table by adding acronyms as you encounter them! Thanks in advance for your contribution!</p>
-        <p ng-show="text2" class="text-center" style="font-size:125%">Are we missing an acronym? Please add it! Thanks in advance for your contribution!</p>
+        <div ng-hide="addAcronymElements" class="text-center">
+          <br>
+          <button ng-click="toggleElements()" type="button" id="add" class='btn btn-primary btn-lg'>Add Acronym</button>
+          <br>
+          <br>
+          <p ng-hide="text1" class="text-center" style="font-size:125%">Help us maintain the data table by adding acronyms as you encounter them! Thanks in advance for your contribution!</p>
+          <p ng-show="text2" class="text-center" style="font-size:125%">Are we missing an acronym? Please add it! Thanks in advance for your contribution!</p>
+        </div>
+
+         <!-- Add Acronym form -->
+         <div class="container" ng-show="addAcronymElements">
+           <legend>Add Acronym</legend>
+           <fieldset class="well">
+             <p>
+               <label>Abbreviation:</label>
+               <input type="text" id="abbrev" placeholder=" (Example): OEM">
+
+               <div class="form-group"><label>Definition:</label>
+                 <textarea class="form-control" rows="3" id="def" placeholder="(Example): Original Equipment Manufacturer"></textarea>
+               </div>
+
+               <div class="form-group"><label>Comment(s) (optional):</label>
+                 <textarea class="form-control" rows="2" id="comment"></textarea>
+               </div>
+
+               <label>Business group associated with this acronym (optional):</label>
+               <select class="selectpicker" id="businessGroup" ng-click="getBusiness()">
+                  <option></option>
+                  <option>A&S - Architecture & Software</option>
+                  <option>CAT - Common Architecture & Technology</option>
+                  <option>CP&S - Control Products & Solutions</option>
+                  <option>CSM - Customer Support and Maintenance</option>
+                  <option>CVB - Control and Visualization Business</option>
+                  <option>Finance</option>
+                  <option>GSM - Global Sales & Marketing</option>
+                  <option>HR - Human Resources</option>
+                  <option>IS - Information Software</option>
+                  <option>ISPB - Information Software and Process Business</option>
+                  <option>Kinetix - Motion Businesss</option>
+                  <option>Legal</option>
+                  <option>Operations</option>
+                  <option>SD - Strategic Development</option>
+                  <option>SSB - Systems and Solutions Business</option>
+                  <option>SSCB - Sensing, Safety, and Connectivity Business</option>
+               </select>
+
+             </p>
+           </fieldset>
+           <!-- The "Add!" button -->
+           <div class="text-center"><button ng-click="add()" type="button" id="addButton2" class='btn btn-primary btn-lg'>Add!</button><br></br></div>
+           <!-- "Thank you for your contribution..." text -->
+           <div class="container" id="thanks2"><p class='text-center' style="font-size:125%">Thank you for your contribution to our acronym search!</p></div>
+           <!-- Back button -->
+           <div class="text-center"><button type="button" class="btn" id="back" ng-click="toggleElements()"> < Back</button><br></br></div>
+         </div>
       </div>
-
-       <!-- Add Acronym form -->
-       <div class="container" ng-show="addAcronymElements">
-         <legend>Add Acronym</legend>
-         <fieldset class="well">
-           <p>
-             <label>Abbreviation:</label>
-             <input type="text" id="abbrev" placeholder=" (Example): OEM">
-           </p>
-           <p>
-             <div class="form-group"><label>Definition</label>
-               <textarea class="form-control" rows="3" id="def" placeholder="(Example): Original Equipment Manufacturer"></textarea>
-             </div>
-           </p>
-           <p>
-             <div class="form-group"><label>Comment (optional)</label>
-               <textarea class="form-control" rows="2" id="comment"></textarea>
-             </div>
-           </p>
-         </fieldset>
-         <!-- The "Add!" button -->
-         <div class="text-center"><button ng-click="add()" type="button" id="addButton2" class='btn btn-primary btn-lg'>Add!</button><br></br></div>
-         <!-- "Thank you for your contribution..." text -->
-         <div class="container" id="thanks2"><p class='text-center' style="font-size:125%">Thank you for your contribution to our acronym search!</p></div>
-         <!-- Back button -->
-         <div class="text-center"><button type="button" class="btn" id="back" ng-click="addAcronymElements=false"> < Back</button><br></br></div>
-       </div>
-    </div>
   </div>
 </div>
 
