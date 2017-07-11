@@ -80,8 +80,9 @@ app.post('/add/:acronym/:def/:comment/:business', function(req, res)
 });
 
 /* Route for when user searches for an acronym */
-app.post('/query/:string', function(req, res)
+app.post('/query/:string/:filter', function(req, res)
 {
+  var filter = req.params.filter + "%";   // the classification (e.g., "All", "Technology"...)
   var string = req.params.string + "%";   // Need to append '%' sign to generate all possible results
   var sql = "SELECT * FROM acronym_table WHERE (acronym LIKE '" +string+ "') OR (definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   var jsObj = {   //javascript object that will be converted to JSON text when response is sent

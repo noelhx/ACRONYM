@@ -54,10 +54,12 @@
               <div class="modal-body">
                 <h4>Meaning:</h4>
                 <p>{{definition}}</p>
-                <h4>Comment(s):</h4>
-                <p>{{comment}}</p>
-                <h4>Business group associated with this acronym:</h4>
-                <p>{{business}}</p>
+                <h4>Business group(s) associated with this acronym:</h4>
+                <p ng-init="business='None specified'">{{business}}</p>
+                <h4>Classified under:</h4>
+                <p ng-init="class='No classification'">{{class}}</p>
+                <h4>Additional comment(s):</h4>
+                <p ng-init="comment='No comment'">{{comment}}</p>
               </div>
               <div class="modal-footer">
                 <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span>
@@ -72,16 +74,16 @@
       <!-- the Search Bar -->
       <div class="container text-nowrap" id="searchBar">
         <div class="row">
-          <div class="col-md-8 col-md-offset-2 input-group">
+          <div class="col-md-10 col-md-offset-1 input-group">
             <div class="input-group-btn search-panel">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              	<span id="search_concept"></span> <span class="caret"></span>
+              	<span id="search_concept" ng-init="filter='Filter by'">{{filter}}</span> <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/">All</a></li>
+                <li><a ng-click="filterSearch('All')">All</a></li>
                 <li class="divider"></li>
-                <li><a href="/">Technology</a></li>
-                <li><a href="/">RA Organization</a></li>
+                <li><a ng-click="filterSearch('Technology')">Technology</a></li>
+                <li><a ng-click="filterSearch('RA Organization')">RA Organization</a></li>
               </ul>
             </div>
             <input class="form-control" ng-keyup="search()" id="searchInput" type="text" placeholder="Search acronym here..."></input>
@@ -93,7 +95,7 @@
           </div>
 
           <!-- The data menu that is displayed when user searches for an acronym -->
-          <div class="col-md-8 col-md-offset-2 input-group">
+          <div class="col-md-10 col-md-offset-1 input-group">
             <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
              <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
             </div>
@@ -204,6 +206,16 @@
                   <option>SD - Strategic Development</option>
                   <option>SSB - Systems and Solutions Business</option>
                   <option>SSCB - Sensing, Safety, and Connectivity Business</option>
+               </select>
+               <br>
+               <br>
+               <label>Tags associated with this acronym (optional):</label>
+               <select class="selectpicker" id="tags">
+                  <option></option>
+                  <option>Analytics and Cloud</option>
+                  <option>Drives</option>
+                  <option>RA Organization</option>
+                  <option>Technology</option>
                </select>
 
              </p>

@@ -72,6 +72,11 @@ app.controller("addAcronymCtrl", function($scope, $http)
 /* Search controller */
 app.controller("searchCtrl", function($scope, $http, $location)
 {
+  $scope.filterSearch = function filterSearch(filterVal)
+  {
+    $scope.filter = filterVal;
+  };
+
   /* User clicks on a search result */
   $scope.infoPage = function infoPage(index)
   {
