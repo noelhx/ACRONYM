@@ -65,14 +65,16 @@ app.post('/increment/:acronym', function(req, res)
 });
 
 /* Route for when user adds an acronym to database */
-app.post('/add/:acronym/:def/:comment/:business/:classification', function(req, res)
+app.post('/add/:acronym/:def/:comment/:business/:classification/:contextLink', function(req, res)
 {
   var acronym = req.params.acronym;
   var def = req.params.def;
   var comment = req.params.comment;
   var business = req.params.business;
   var classification = req.params.classification;
-  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "')";
+  var contextLink = unescape(req.params.contextLink); // parse context url back to original format
+  console.log("contextLink is " +contextLink);
+  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class, context_link) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "', '" +contextLink+ "')";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
@@ -100,7 +102,8 @@ app.post('/query/:string/:filter', function(req, res)
     comment: [],
     clicks: [],
     business: [],
-    classification: []
+    classification: [],
+    context: []
   };
 
   con.query(sql, function(err, result, fields)
@@ -120,12 +123,14 @@ app.post('/query/:string/:filter', function(req, res)
         var clicksToAdd = result[i].clicks;
         var businessToAdd = result[i].business;
         var classToAdd = result[i].class;
+        var contextToAdd = result[i].context_link;
         jsObj.acronym.push(acronymToAdd);
         jsObj.definition.push(defToAdd);
         jsObj.comment.push(commentToAdd);
         jsObj.clicks.push(clicksToAdd);
         jsObj.business.push(businessToAdd);
         jsObj.classification.push(classToAdd);
+        jsObj.context.push(contextToAdd);
       }
       res.json(jsObj);  // converts the javascript object to a JSON string and send it as response
     }

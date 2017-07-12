@@ -41,36 +41,6 @@
           <br>
         </div>
 
-      <!-- Modal containing information about the acronym-->
-      <div class="container">
-        <div id="infoModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
-              </div>
-              <div class="modal-body">
-                <h4>Meaning:</h4>
-                <p>{{definition}}</p>
-                <h4>Business group(s) associated with this acronym:</h4>
-                <p ng-init="business='None specified'">{{business}}</p>
-                <h4>Classified under:</h4>
-                <p ng-init="class='No classification'">{{classification}}</p>
-                <h4>Additional comment(s):</h4>
-                <p ng-init="comment='No comment'">{{comment}}</p>
-              </div>
-              <div class="modal-footer">
-                <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span>
-                <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
-                <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- the Search Bar -->
       <div class="container text-nowrap" id="searchBar">
         <div class="row">
@@ -82,6 +52,8 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a ng-click="filterSearch('All')">All</a></li>
                 <li class="divider"></li>
+                <li><a ng-click="filterSearch('Analytics and Cloud')">Analytics and Cloud</a></li>
+                <li><a ng-click="filterSearch('Drives')">Drives</a></li>
                 <li><a ng-click="filterSearch('Technology')">Technology</a></li>
                 <li><a ng-click="filterSearch('RA Organization')">RA Organization</a></li>
               </ul>
@@ -98,6 +70,36 @@
           <div class="col-md-10 col-md-offset-1 input-group">
             <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
              <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal containing information about the acronym-->
+        <div class="container">
+          <div id="infoModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
+                </div>
+                <div class="modal-body">
+                  <h4>Meaning:</h4>
+                  <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
+                  <h4>Business group associated with this acronym:</h4>
+                  <p ng-init="business='None specified'">{{business}}</p>
+                  <h4>Classified under:</h4>
+                  <p ng-init="class='No classification'">{{classification}}</p>
+                  <h4>Additional comment(s):</h4>
+                  <p ng-init="comment='No comment'">{{comment}}</p>
+                </div>
+                <div class="modal-footer">
+                  <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span>
+                  <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
+                  <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -176,11 +178,16 @@
            <legend>Add Acronym</legend>
            <fieldset class="well">
              <p>
-               <label>Abbreviation:</label>
+               <label>*Abbreviation:</label>
                <input type="text" id="abbrev" placeholder=" (Example): OEM">
 
-               <div class="form-group"><label>Definition:</label>
+               <div class="form-group"><label>*Definition:</label>
                  <textarea class="form-control" rows="3" id="def" placeholder="(Example): Original Equipment Manufacturer"></textarea>
+               </div>
+
+               <div class="form-group"><label>Context link (recommended):</label>
+                 <textarea class="form-control" rows="1" id="contextLink" placeholder="(Example): https://en.wikipedia.org/wiki/Original_equipment_manufacturer"></textarea>
+                 <p>Referring to a context link helps to provide additional information about this acronym.</p>
                </div>
 
                <div class="form-group"><label>Comment(s) (optional):</label>
@@ -189,7 +196,7 @@
 
                <label>Business group associated with this acronym (optional):</label>
                <select class="selectpicker" id="businessGroup">
-                  <option></option>
+                  <option>No group specified</option>
                   <option>A&S - Architecture & Software</option>
                   <option>CAT - Common Architecture & Technology</option>
                   <option>CP&S - Control Products & Solutions</option>
@@ -211,14 +218,14 @@
                <br>
                <label>This acronym is best classified under (optional):</label>
                <select class="selectpicker" id="classTag">
-                  <option></option>
+                  <option>No classification specified</option>
                   <option>Analytics and Cloud</option>
                   <option>Drives</option>
                   <option>RA Organization</option>
                   <option>Technology</option>
                </select>
-
              </p>
+             <p>* = required</p>
            </fieldset>
            <!-- The "Add!" button -->
            <div class="text-center"><button ng-click="add()" type="button" id="addButton2" class='btn btn-primary btn-lg'>Add!</button><br></br></div>

@@ -9,9 +9,10 @@ app.controller("addAcronymCtrl", function($scope, $http)
     // Clear the input boxes in the add form
     document.getElementById("abbrev").value = "";
     document.getElementById("def").value = "";
+    document.getElementById("contextLink").value = "";
     document.getElementById("comment").value = "";
-    document.getElementById("businessGroup").value = "";
-    document.getElementById("classTag").value = "";
+    document.getElementById("businessGroup").value = "No group specified";
+    document.getElementById("classTag").value = "No classification specified";
   };
 
   $scope.add = function add()
@@ -21,7 +22,7 @@ app.controller("addAcronymCtrl", function($scope, $http)
     var comment = document.getElementById("comment");
     var business = document.getElementById("businessGroup");
     var classification = document.getElementById("classTag");
-    console.log("class is " +classification.value);
+    var contextLinkVal = document.getElementById("contextLink").value;
     // Check if abbreviation or definition fields are blank
     if (abbrev.value == "")
     {
@@ -41,23 +42,24 @@ app.controller("addAcronymCtrl", function($scope, $http)
       });
       return;
     }
-    if (comment.value == "")
-    {
-      // if no comment, set value to "No comment"
+    if (contextLinkVal == "") {
+      contextLink.value = "None";
+    }
+    if (comment.value == "") {
       comment.value = "No comment";
     }
-    if (business.value == "")
-    {
-      // if no business selected, set value to "None"
-      business.value = "None";
+    if (business.value == "") {
+      business.value = "No group specified";
     }
-    if (classification.value == "")
-    {
-      // if no classification specified, set value to "None"
-      classification.value = "None";
+    if (classification.value == "") {
+      classification.value = "No classification specified";
     }
+
+    contextLinkVal = encodeURIComponent(contextLinkVal);
+    console.log(contextLinkVal);
+
     var req = new XMLHttpRequest();
-    req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value+"/"+business.value+"/"+classification.value, true);
+    req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value+"/"+business.value+"/"+classification.value+"/"+contextLinkVal, true);
     req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
     function pollStateChange()
     {
@@ -94,6 +96,7 @@ app.controller("searchCtrl", function($scope, $http, $location)
     var comment = $scope.jsObj.comment[index];
     var business = $scope.jsObj.business[index];
     var classification = $scope.jsObj.classification[index];
+    var context = $scope.jsObj.context[index];
 
     // Update the scope with the acronym's information
     $scope.acronym = acronym;
@@ -101,6 +104,11 @@ app.controller("searchCtrl", function($scope, $http, $location)
     $scope.comment = comment;
     $scope.business = business;
     $scope.classification = classification;
+    if (context != "None")  // if context link provided for this acronym, display the link
+    {
+      $scope.context = context;
+      $scope.contextElement = true;
+    }
 
     // Send request to MySQL acronym database to increment clicks
     var req = new XMLHttpRequest();
@@ -126,7 +134,8 @@ app.controller("searchCtrl", function($scope, $http, $location)
       comment: [],
       clicks: [],
       business: [],
-      classification: []
+      classification: [],
+      context: []
     };
     if (str.length == 0 || str == '/' || str == '?' || str == "." || str == "=" || str == '\'') // Check that the search characters are valid to perform a query
     {
@@ -159,6 +168,7 @@ app.controller("searchCtrl", function($scope, $http, $location)
               $scope.jsObj.clicks.push(jsonResults.clicks[i]);
               $scope.jsObj.business.push(jsonResults.business[i]);
               $scope.jsObj.classification.push(jsonResults.classification[i]);
+              $scope.jsObj.context.push(jsonResults.context[i]);
             }
           }
           $scope.setDisplay = true;
