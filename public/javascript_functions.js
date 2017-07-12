@@ -42,21 +42,19 @@ app.controller("addAcronymCtrl", function($scope, $http)
       });
       return;
     }
-    if (contextLinkVal == "") {
+    if (contextLinkVal == "")
       contextLink.value = "None";
-    }
-    if (comment.value == "") {
+
+    if (comment.value == "")
       comment.value = "No comment";
-    }
-    if (business.value == "") {
+
+    if (business.value == "")
       business.value = "No group specified";
-    }
-    if (classification.value == "") {
+
+    if (classification.value == "")
       classification.value = "No classification specified";
-    }
 
     contextLinkVal = encodeURIComponent(contextLinkVal);
-    console.log(contextLinkVal);
 
     var req = new XMLHttpRequest();
     req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value+"/"+business.value+"/"+classification.value+"/"+contextLinkVal, true);
@@ -102,12 +100,20 @@ app.controller("searchCtrl", function($scope, $http, $location)
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
-    $scope.business = business;
     $scope.classification = classification;
     if (context != "None")  // if context link provided for this acronym, display the link
     {
       $scope.context = context;
       $scope.contextElement = true;
+    }
+    if (business == "No group specified")
+    {
+        $scope.business = business;
+    }
+    else
+    {
+        console.log(business);
+        $scope.business = getGroupLink(business);
     }
 
     // Send request to MySQL acronym database to increment clicks
@@ -185,3 +191,33 @@ app.controller("searchCtrl", function($scope, $http, $location)
     }
   }
 });
+
+/* Takes the business group that the acronym belongs to and links that group with its respective information page */
+function getGroupLink(business)
+{
+    console.log(business);
+    if (business == "A&S - Architecture & Software")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf'>" +business+ "</a>";
+    if (business == "CAT - Common Architecture & Technology")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CAT/CAT.pdf'>" +business+ "</a>";
+    if (business == "CP&S - Control Products & Solutions")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CP&S.pdf'>" +business+ "</a>";
+    if (business == "CSM - Customer Support and Maintenance")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CSM/CSM.pdf'>" +business+ "</a>";
+    if (business == "CVB - Control and Visualization Business")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CVB/CVB.pdf'>" +business+ "</a>";
+    if (business == "GSM - Global Sales & Marketing")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/GSM.pdf'>" +business+ "</a>";
+    if (business == "HR - Human Resources")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/HR.pdf'>" +business+ "</a>";
+    if (business == "IS - Information Software")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB%20%E2%80%93%20Global%20IS%20Delivery.pdf'>" +business+ "</a>";
+    if (business == "ISPB - Information Software and Process Business")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB.pdf'>" +business+ "</a>";
+    if (business == "SD - Strategic Development")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf'>" +business+ "</a>";
+    if (business == "SSB - Systems and Solutions Business")
+        return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf'>" +business+ "</a>";
+
+    return business;
+}

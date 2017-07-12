@@ -28,6 +28,12 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/"><img src="public/rockwell-logo.png" alt="RA Logo"></a>
     </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href='/'>Acronym Database</a></li>
+      <li><a href='/'>Page 1</a></li>
+      <li><a href='/'>Page 2</a></li>
+      <li><a href='/'>Page 3</a></li>
+    </ul>
   </div>
 </nav>
 
@@ -88,14 +94,14 @@
                   <h4>Meaning:</h4>
                   <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
                   <h4>Business group associated with this acronym:</h4>
-                  <p ng-init="business='None specified'">{{business}}</p>
+                  <p ng-bind-html="business"></p>
                   <h4>Classified under:</h4>
                   <p ng-init="class='No classification'">{{classification}}</p>
                   <h4>Additional comment(s):</h4>
                   <p ng-init="comment='No comment'">{{comment}}</p>
                 </div>
                 <div class="modal-footer">
-                  <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span>
+                  <!-- <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span> -->
                   <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
                   <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
                 </div>
