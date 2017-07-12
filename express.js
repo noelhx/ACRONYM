@@ -65,13 +65,14 @@ app.post('/increment/:acronym', function(req, res)
 });
 
 /* Route for when user adds an acronym to database */
-app.post('/add/:acronym/:def/:comment/:business', function(req, res)
+app.post('/add/:acronym/:def/:comment/:business/:classification', function(req, res)
 {
   var acronym = req.params.acronym;
   var def = req.params.def;
   var comment = req.params.comment;
   var business = req.params.business;
-  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '"+business+"')";
+  var classification = req.params.classification;
+  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "')";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
@@ -84,19 +85,28 @@ app.post('/query/:string/:filter', function(req, res)
 {
   var filter = req.params.filter + "%";   // the classification (e.g., "All", "Technology"...)
   var string = req.params.string + "%";   // Need to append '%' sign to generate all possible results
-  var sql = "SELECT * FROM acronym_table WHERE (acronym LIKE '" +string+ "') OR (definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
-  var jsObj = {   //javascript object that will be converted to JSON text when response is sent
+  var sql = "";
+  if (filter == "Filter by%" || filter == "All%")   // if no filter selected (or 'All' is selected), perform normal query without classification
+  {
+    sql = "SELECT * FROM acronym_table WHERE (acronym LIKE '" +string+ "') OR (definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+  }
+  else
+  {
+    sql = "SELECT * FROM acronym_table WHERE (class LIKE '" +filter+ "') AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+  }
+  var jsObj = {   // javascript object that will be converted to JSON text when response is sent
     acronym: [],
     definition: [],
     comment: [],
     clicks: [],
-    business: []
+    business: [],
+    classification: []
   };
 
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
-    if (result.length == 0)
+    if (result.length == 0)   // if no results, return -1
     {
       res.json(-1);
     }
@@ -109,13 +119,15 @@ app.post('/query/:string/:filter', function(req, res)
         var commentToAdd = result[i].cmt;
         var clicksToAdd = result[i].clicks;
         var businessToAdd = result[i].business;
+        var classToAdd = result[i].class;
         jsObj.acronym.push(acronymToAdd);
         jsObj.definition.push(defToAdd);
         jsObj.comment.push(commentToAdd);
         jsObj.clicks.push(clicksToAdd);
         jsObj.business.push(businessToAdd);
+        jsObj.classification.push(classToAdd);
       }
-      res.json(jsObj);  //.json method converts the javascript object to a JSON string and sends it as response
+      res.json(jsObj);  // converts the javascript object to a JSON string and send it as response
     }
   });
 });

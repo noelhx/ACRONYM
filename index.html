@@ -57,7 +57,7 @@
                 <h4>Business group(s) associated with this acronym:</h4>
                 <p ng-init="business='None specified'">{{business}}</p>
                 <h4>Classified under:</h4>
-                <p ng-init="class='No classification'">{{class}}</p>
+                <p ng-init="class='No classification'">{{classification}}</p>
                 <h4>Additional comment(s):</h4>
                 <p ng-init="comment='No comment'">{{comment}}</p>
               </div>
@@ -188,7 +188,7 @@
                </div>
 
                <label>Business group associated with this acronym (optional):</label>
-               <select class="selectpicker" id="businessGroup" ng-click="getBusiness()">
+               <select class="selectpicker" id="businessGroup">
                   <option></option>
                   <option>A&S - Architecture & Software</option>
                   <option>CAT - Common Architecture & Technology</option>
@@ -209,8 +209,8 @@
                </select>
                <br>
                <br>
-               <label>Tags associated with this acronym (optional):</label>
-               <select class="selectpicker" id="tags">
+               <label>This acronym is best classified under (optional):</label>
+               <select class="selectpicker" id="classTag">
                   <option></option>
                   <option>Analytics and Cloud</option>
                   <option>Drives</option>
