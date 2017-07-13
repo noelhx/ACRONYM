@@ -55,7 +55,7 @@ app.get('/contact', function (req, res)
 /* Route for when user clicks on search result and the acronym clicks needs to be incremented */
 app.post('/increment/:acronym', function(req, res)
 {
-  var acronym = req.params.acronym;
+  var acronym = decodeURIComponent(req.params.acronym);
   var sql = "UPDATE acronym_table SET clicks = clicks + 1 WHERE acronym = '" + acronym + "'";
   con.query(sql, function(err, result, fields)
   {
@@ -67,12 +67,12 @@ app.post('/increment/:acronym', function(req, res)
 /* Route for when user adds an acronym to database */
 app.post('/add/:acronym/:def/:comment/:business/:classification/:contextLink', function(req, res)
 {
-  var acronym = req.params.acronym;
-  var def = req.params.def;
-  var comment = req.params.comment;
-  var business = req.params.business;
-  var classification = req.params.classification;
-  var contextLink = unescape(req.params.contextLink); // parse context url back to original format
+  var acronym = decodeURIComponent(req.params.acronym);
+  var def = decodeURIComponent(req.params.def);
+  var comment = decodeURIComponent(req.params.comment);
+  var business = decodeURIComponent(req.params.business);
+  var classification = decodeURIComponent(req.params.classification);
+  var contextLink = decodeURIComponent(req.params.contextLink);   // parse context url back to original format
   var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class, context_link) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "', '" +contextLink+ "')";
   con.query(sql, function(err, result, fields)
   {
@@ -85,7 +85,7 @@ app.post('/add/:acronym/:def/:comment/:business/:classification/:contextLink', f
 app.post('/query/:string/:filter', function(req, res)
 {
   var filter = req.params.filter + "%";   // the classification (e.g., "All", "Technology"...)
-  var string = req.params.string + "%";   // Need to append '%' sign to generate all possible results
+  var string = decodeURIComponent(req.params.string) + "%";   // Need to append '%' sign to generate all possible results
   var sql = "";
   if (filter == "Filter by%" || filter == "All%")   // if no filter selected (or 'All' is selected), perform normal query without classification
   {

@@ -18,14 +18,14 @@ app.controller("acronymCtrl", function($scope, $http, $location)
   /* Adds the acronym and its information to the database when user clicks on "Add!" button */
   $scope.add = function add()
   {
-    var abbrev = document.getElementById("abbrev");
-    var def = document.getElementById("def");
-    var comment = document.getElementById("comment");
-    var business = document.getElementById("businessGroup");
-    var classification = document.getElementById("classTag");
-    var contextLinkVal = document.getElementById("contextLink").value;
+    var abbrev = encodeURIComponent(document.getElementById("abbrev").value);
+    var def = encodeURIComponent(document.getElementById("def").value);
+    var comment = encodeURIComponent(document.getElementById("comment").value);
+    var business = encodeURIComponent(document.getElementById("businessGroup").value);
+    var classification = encodeURIComponent(document.getElementById("classTag").value);
+    var contextLinkVal = encodeURIComponent(document.getElementById("contextLink").value);
     // Check if abbreviation or definition fields are blank
-    if (abbrev.value == "")
+    if (abbrev == "")
     {
       // Launch modal to alert user to add abbreviation
       $(document).ready(function()
@@ -34,7 +34,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
       });
       return;
     }
-    if (def.value == "")
+    if (def == "")
     {
       // Launch modal to alert user to add definition
       $(document).ready(function()
@@ -44,21 +44,13 @@ app.controller("acronymCtrl", function($scope, $http, $location)
       return;
     }
     if (contextLinkVal == "")
-      contextLink.value = "None";
+      contextLinkVal = "None";
 
-    if (comment.value == "")
-      comment.value = "No comment";
-
-    if (business.value == "")
-      business.value = "No group specified";
-
-    if (classification.value == "")
-      classification.value = "No classification specified";
-
-    contextLinkVal = encodeURIComponent(contextLinkVal);
+    if (comment == "")
+      comment = "No comment";
 
     var req = new XMLHttpRequest();
-    req.open("POST","/add/"+abbrev.value+"/"+def.value+"/"+comment.value+"/"+business.value+"/"+classification.value+"/"+contextLinkVal, true);
+    req.open("POST","/add/"+abbrev+"/"+def+"/"+comment+"/"+business+"/"+classification+"/"+contextLinkVal, true);
     req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
     function pollStateChange()
     {
@@ -78,6 +70,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     req.send(null);
   }
 
+  /* Indicates what filter the user has selected and sets the filter value to that */
   $scope.filterSearch = function filterSearch(filterVal)
   {
     $scope.filter = filterVal;
@@ -86,6 +79,8 @@ app.controller("acronymCtrl", function($scope, $http, $location)
   /* Gathers the acronym information and displays info modal when user clicks on a search result */
   $scope.infoPage = function infoPage(index)
   {
+    if ($scope.records[0] == "No results")
+        return;
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
@@ -113,12 +108,12 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     }
     else
     {
-        console.log(business);
         $scope.business = getGroupLink(business);
     }
 
     // Send request to MySQL acronym database to increment clicks
     var req = new XMLHttpRequest();
+    acronym = encodeURIComponent(acronym);
     req.open("POST","/increment/"+acronym, true);
     req.send(null);
     var clicks = $scope.jsObj.clicks[index];
@@ -144,7 +139,8 @@ app.controller("acronymCtrl", function($scope, $http, $location)
       classification: [],
       context: []
     };
-    if (str.length == 0 || str == '/' || str == '?' || str == "." || str == "=" || str == '\'') // Check that the search characters are valid to perform a query
+
+    if (str.length == 0)
     {
       $scope.setDisplay = false;
       $scope.text1 = false;
@@ -152,6 +148,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     }
     else
     {
+      str = encodeURIComponent(str);
       req.open("POST","/query/"+str+"/"+filter, true);
       req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
       function pollStateChange()

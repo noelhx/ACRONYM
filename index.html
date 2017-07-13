@@ -205,33 +205,33 @@
 
     <!-- Modal containing information about the acronym-->
     <div class="container">
-    <div id="infoModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
-          </div>
-          <div class="modal-body">
-            <h4>Meaning:</h4>
-            <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
-            <h4>Business group associated with this acronym:</h4>
-            <p ng-bind-html="business"></p>
-            <h4>Classified under:</h4>
-            <p ng-init="class='No classification'">{{classification}}</p>
-            <h4>Additional comment(s):</h4>
-            <p ng-init="comment='No comment'">{{comment}}</p>
-          </div>
-          <div class="modal-footer">
-            <!-- <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span> -->
-            <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
-            <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
+      <div id="infoModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
+            </div>
+            <div class="modal-body">
+              <h4>Meaning:</h4>
+              <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
+              <h4>Business group associated with this acronym:</h4>
+              <p ng-bind-html="business"></p>
+              <h4>Classified under:</h4>
+              <p ng-init="class='No classification'">{{classification}}</p>
+              <h4>Additional comment(s):</h4>
+              <p ng-init="comment='No comment'">{{comment}}</p>
+            </div>
+            <div class="modal-footer">
+              <!-- <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span> -->
+              <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
+              <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
     <!-- Modal that indicates user successfully added acronym -->
     <div id="successModal" class="modal fade" role="dialog">
@@ -250,7 +250,7 @@
          </div>
        </div>
      </div>
-   </div>
+    </div>
 
     <!-- Modal that alerts user to add an abbreviation if field left blank -->
     <div id="abbrevAlert" class="modal fade" role="dialog">
@@ -268,8 +268,8 @@
            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
          </div>
        </div>
-     </div>
-   </div>
+      </div>
+    </div>
 
     <!-- Modal that alerts user to add a definition if field left blank -->
     <div id="defAlert" class="modal fade" role="dialog">
@@ -287,8 +287,8 @@
            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
          </div>
        </div>
-     </div>
-   </div>
+      </div>
+    </div>
 
     <!-- Footer containing copyright and links to additional pages-->
     <div class="footerfix"></div>
