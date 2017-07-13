@@ -9,332 +9,302 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <!-- Custom CSS sheet, used for the navbar header, footer, and filter dropdown menu -->
   <link rel="stylesheet" type="text/css" href="css/custom.css">
-  <!-- Optional theme -->
+  <!-- Optional theme from Bootstrap -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- AngularJS framework -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-sanitize.js"></script>
-  <!-- My javascript functions -->
+  <!-- Javascript functions -->
   <script type="text/javascript" src="javascript_functions.js"></script>
 </head>
 
 <body>
 
-<!-- Header at top of page -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/"><img src="public/rockwell-logo-small.png" alt="RA Logo"></a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href='/'>Acronym Database</a></li>
-      <li><a href='/'>Glossary of Terms</a></li>
-      <li><a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Sr%20Mgt.pdf'>RA Senior Staff</a></li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Functional%20Units.pdf">RA Functional Units
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Functional%20Units.pdf">View all Functional Units</a></li>
-          <hr style="margin-top:2px; margin-bottom:2px;">
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf">A&S - Architecture & Software</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CAT/CAT.pdf">CAT - Common Architecture & Technology</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CP&S.pdf">CP&S - Control Products & Solutions</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CSM/CSM.pdf">CSM - Customer Support and Maintenance</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CVB/CVB.pdf">CVB - Control and Visualization Business</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/GSM.pdf">GSM - Global Sales & Marketing</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/HR.pdf">HR - Human Resources</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB%20%E2%80%93%20Global%20IS%20Delivery.pdf">IS - Information Software</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB.pdf">ISPB - Information Software and Process Business</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf">SD - Strategic Development</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf">SSB - Systems and Solutions Business</a></li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Industries%20Top%20Level.pdf">Industry Verticals
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Industries%20Top%20Level.pdf">View all Industry Verticals</a></li>
-          <hr style="margin-top:2px; margin-bottom:2px;">
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Automotive/Industry%20-%20Automotive.pdf">Automotive</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Tire%20&%20Rubber/Industry%20-%20Tire.pdf">Tire & Rubber</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Oil%20&%20Gas/Industry%20-%20Oil%20&%20Gas.pdf">Oil & Gas</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Chemicals/Industry%20-%20Chemicals.pdf">Chemicals</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Food%20&%20Beverage/Industry%20-%20Food.pdf">Food</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Food%20&%20Beverage/Industry%20-%20Beverage.pdf">Beverage</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Pulp%20&%20Paper/Industry%20-%20Pulp%20&%20Paper.pdf">Pulp & Paper</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Life%20Sciences/Industry%20-%20Life%20Sciences.pdf">Life Sciences</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Water%20Wastewater/Industry%20-%20Water%20Wastewater.pdf">Water Wastewater</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf">Mining, Metals & Cement</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Marine/Industry%20-%20Marine.pdf">Marine</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Power%20Generation/Industry%20-%20Power%20Generation.pdf">Power Generation</a></li>
-          <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Rail/Industry%20-%20Rail.pdf">Rail</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</nav>
-
 <div ng-app="acronymApp">
-  <div ng-controller="searchCtrl">
+  <div ng-controller="acronymCtrl">
 
-      <!-- the Acronym Database logo image -->
-      <div style="margin-top:80px"></div>
-        <div class="container">
-          <img alt="acronym-database" class="img-responsive center-block" src="/public/acronym-database.png"></img>
-          <br>
+    <!-- Header at top of page -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/"><img src="public/rockwell-logo-small.png" alt="RA Logo"></a>
         </div>
-
-      <!-- the Search Bar -->
-      <div class="container text-nowrap" id="searchBar">
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1 input-group">
-            <div class="input-group-btn search-panel">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              	<span id="search_concept" ng-init="filter='Filter by'">{{filter}}</span> <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a tabindex="-1" ng-click="filterSearch('All')">All</a></li>
-                <hr style="margin-top:2px; margin-bottom:2px;">
-                <li><a tabindex="-1" ng-click="filterSearch('Drives')">Drives</a></li>
-                <li class="dropdown-submenu">
-                  <a class="test" tabindex="-1" ng-click="filterSearch('Technology')">Technology <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a tabindex="-1" ng-click="filterSearch('Analytics and Cloud')">Analytics and Cloud</a></li>
-                    <li><a tabindex="-1" ng-click="filterSearch('Asset Management')">Asset Management</a></li>
-                    <li><a tabindex="-1" ng-click="filterSearch('Business Systems')">Business Systems</a></li>
-                    <li><a tabindex="-1" ng-click="filterSearch('Internet Infastructure and Communications')">Internet Infastructure and Communications</a></li>
-                    <li><a tabindex="-1" ng-click="filterSearch('Layered Architecture')">Layered Architecture</a></li>
-                    <li><a tabindex="-1" ng-click="filterSearch('Open Standards')">Open Standards</a></li>
-                  </ul>
-                </li>
-                <li><a tabindex="-1" ng-click="filterSearch('RA Organization')">RA Organization</a></li>
-              </ul>
-            <!--
-              <ul class="dropdown-menu" role="menu">
-                <li><a ng-click="filterSearch('All')">All</a></li>
-                <hr style="margin-top:2px; margin-bottom:2px;">
-                <li><a ng-click="filterSearch('Drives')">Drives</a></li>
-                <li class="dropdown-submenu">
-                  <ul class="dropdown-menu">
-                    <a class="test" tabindex="-1" ng-click="filterSearch('Technology')">Technology <span class="caret"></span></a>
-                      <li><a tabindex="-1" ng-click="filterSearch('Analytics and Cloud')">Analytics and Cloud</a></li>
-                      <li><a tabindex="-1" href="/">Asset Management</a></li>
-                  </ul>
-                </li>
-                <li><a ng-click="filterSearch('RA Organization')">RA Organization</a></li>
-              </ul>
-            -->
-            </div>
-            <input class="form-control" ng-keyup="search()" id="searchInput" type="text" placeholder="Search acronym here..."></input>
-            <span class="input-group-btn">
-              <button ng-click="search()" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
-            </span>
-          </div>
-
-          <!-- The data menu that is displayed when user searches for an acronym -->
-          <div class="col-md-10 col-md-offset-1 input-group">
-            <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
-             <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal containing information about the acronym-->
-        <div class="container">
-          <div id="infoModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
-                </div>
-                <div class="modal-body">
-                  <h4>Meaning:</h4>
-                  <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
-                  <h4>Business group associated with this acronym:</h4>
-                  <p ng-bind-html="business"></p>
-                  <h4>Classified under:</h4>
-                  <p ng-init="class='No classification'">{{classification}}</p>
-                  <h4>Additional comment(s):</h4>
-                  <p ng-init="comment='No comment'">{{comment}}</p>
-                </div>
-                <div class="modal-footer">
-                  <!-- <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span> -->
-                  <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
-                  <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-         <!-- Modal that indicates user successfully added acronym -->
-         <div id="successModal" class="modal fade" role="dialog">
-           <div class="modal-dialog">
-             <!-- Modal content-->
-             <div class="modal-content">
-               <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Success!</h4>
-               </div>
-               <div class="modal-body">
-                 <p>Your acronym was added to the database. Thank you!</p>
-               </div>
-               <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-             </div>
-           </div>
-         </div>
-
-         <!-- Modal that alerts user to add an abbreviation if field left blank -->
-         <div id="abbrevAlert" class="modal fade" role="dialog">
-           <div class="modal-dialog">
-             <!-- Modal content-->
-             <div class="modal-content">
-               <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Oops!</h4>
-               </div>
-               <div class="modal-body">
-                 <p>Please enter an abbreviation for the acronym.</p>
-               </div>
-               <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-             </div>
-           </div>
-         </div>
-
-         <!-- Modal that alerts user to add a definition if field left blank -->
-         <div id="defAlert" class="modal fade" role="dialog">
-           <div class="modal-dialog">
-             <!-- Modal content-->
-             <div class="modal-content">
-               <div class="modal-header">
-                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                 <h4 class="modal-title">Oops!</h4>
-               </div>
-               <div class="modal-body">
-                 <p>Please enter a definition for the acronym.</p>
-               </div>
-               <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-             </div>
-           </div>
-         </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href='/'>Acronym Database</a></li>
+          <li><a href='/'>Glossary of Terms</a></li>
+          <li><a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Sr%20Mgt.pdf'>RA Senior Staff</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Functional%20Units.pdf">RA Functional Units
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/Functional%20Units.pdf">View all Functional Units</a></li>
+              <hr style="margin-top:2px; margin-bottom:2px;">
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf">A&S - Architecture & Software</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CAT/CAT.pdf">CAT - Common Architecture & Technology</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CP&S.pdf">CP&S - Control Products & Solutions</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CSM/CSM.pdf">CSM - Customer Support and Maintenance</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CVB/CVB.pdf">CVB - Control and Visualization Business</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/GSM.pdf">GSM - Global Sales & Marketing</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/HR.pdf">HR - Human Resources</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB%20%E2%80%93%20Global%20IS%20Delivery.pdf">IS - Information Software</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB.pdf">ISPB - Information Software and Process Business</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf">SD - Strategic Development</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf">SSB - Systems and Solutions Business</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Industries%20Top%20Level.pdf">Industry Verticals
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Industries%20Top%20Level.pdf">View all Industry Verticals</a></li>
+              <hr style="margin-top:2px; margin-bottom:2px;">
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Automotive/Industry%20-%20Automotive.pdf">Automotive</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Tire%20&%20Rubber/Industry%20-%20Tire.pdf">Tire & Rubber</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Oil%20&%20Gas/Industry%20-%20Oil%20&%20Gas.pdf">Oil & Gas</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Chemicals/Industry%20-%20Chemicals.pdf">Chemicals</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Food%20&%20Beverage/Industry%20-%20Food.pdf">Food</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Food%20&%20Beverage/Industry%20-%20Beverage.pdf">Beverage</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Pulp%20&%20Paper/Industry%20-%20Pulp%20&%20Paper.pdf">Pulp & Paper</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Life%20Sciences/Industry%20-%20Life%20Sciences.pdf">Life Sciences</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Water%20Wastewater/Industry%20-%20Water%20Wastewater.pdf">Water Wastewater</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf">Mining, Metals & Cement</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Marine/Industry%20-%20Marine.pdf">Marine</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Power%20Generation/Industry%20-%20Power%20Generation.pdf">Power Generation</a></li>
+              <li><a href="https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/Industries/Rail/Industry%20-%20Rail.pdf">Rail</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
+    </nav>
 
-      <div ng-controller="addAcronymCtrl">
-        <br>
-        <div ng-hide="addAcronymElements" class="text-center">
-          <br>
-          <button ng-click="toggleElements()" type="button" id="add" class='btn btn-primary btn-lg'>Add Acronym</button>
-          <br>
-          <br>
-          <p ng-hide="text1" class="text-center" style="font-size:125%">Help us maintain the data table by adding acronyms as you encounter them! Thanks in advance for your contribution!</p>
-          <p ng-show="text2" class="text-center" style="font-size:125%">Are we missing an acronym? Please add it! Thanks in advance for your contribution!</p>
+    <!-- the Acronym Database logo image -->
+    <div style="margin-top:80px"></div>
+    <div class="container"><img alt="acronym-database" class="img-responsive center-block" src="/public/acronym-database.png"></img><br></div>
+
+    <!-- the Search Bar -->
+    <div class="container text-nowrap" id="searchBar">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1 input-group">
+          <div class="input-group-btn search-panel">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            	<span id="search_concept" ng-init="filter='Filter by'">{{filter}}</span> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a tabindex="-1" ng-click="filterSearch('All')">All</a></li>
+              <hr style="margin-top:2px; margin-bottom:2px;">
+              <li><a tabindex="-1" ng-click="filterSearch('Drives')">Drives</a></li>
+              <li class="dropdown-submenu">
+                <a class="test" tabindex="-1" ng-click="filterSearch('Technology')">Technology <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a tabindex="-1" ng-click="filterSearch('Analytics and Cloud')">Analytics and Cloud</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Asset Management')">Asset Management</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Business Systems')">Business Systems</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Internet Infastructure and Communications')">Internet Infastructure and Communications</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Layered Architecture')">Layered Architecture</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Open Standards')">Open Standards</a></li>
+                </ul>
+              </li>
+              <li><a tabindex="-1" ng-click="filterSearch('RA Organization')">RA Organization</a></li>
+            </ul>
+          </div>
+          <input class="form-control" ng-keyup="search()" id="searchInput" type="text" placeholder="Search acronym here..."></input>
+          <span class="input-group-btn">
+            <button ng-click="search()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+          </span>
         </div>
-
-         <!-- Add Acronym form -->
-         <div class="container" ng-show="addAcronymElements">
-           <legend>Add Acronym</legend>
-           <fieldset class="well">
-             <p>
-               <label>*Abbreviation:</label>
-               <input type="text" id="abbrev" placeholder=" (Example): OEM">
-
-               <div class="form-group"><label>*Definition:</label>
-                 <textarea class="form-control" rows="3" id="def" placeholder="(Example): Original Equipment Manufacturer"></textarea>
-               </div>
-
-               <div class="form-group"><label>Context link (recommended):</label>
-                 <textarea class="form-control" rows="1" id="contextLink" placeholder="(Example): https://en.wikipedia.org/wiki/Original_equipment_manufacturer"></textarea>
-                 <p>Referring to a context link helps to provide additional information about this acronym.</p>
-               </div>
-
-               <div class="form-group"><label>Comment(s) (optional):</label>
-                 <textarea class="form-control" rows="2" id="comment"></textarea>
-               </div>
-
-               <label>Business group associated with this acronym (optional):</label>
-               <select class="selectpicker" id="businessGroup">
-                  <option>No group specified</option>
-                  <option>A&S - Architecture & Software</option>
-                  <option>CAT - Common Architecture & Technology</option>
-                  <option>CP&S - Control Products & Solutions</option>
-                  <option>CSM - Customer Support and Maintenance</option>
-                  <option>CVB - Control and Visualization Business</option>
-                  <option>Finance</option>
-                  <option>GSM - Global Sales & Marketing</option>
-                  <option>HR - Human Resources</option>
-                  <option>IS - Information Software</option>
-                  <option>ISPB - Information Software and Process Business</option>
-                  <option>Kinetix - Motion Businesss</option>
-                  <option>Legal</option>
-                  <option>Operations</option>
-                  <option>SD - Strategic Development</option>
-                  <option>SSB - Systems and Solutions Business</option>
-                  <option>SSCB - Sensing, Safety, and Connectivity Business</option>
-               </select>
-               <br>
-               <br>
-               <label>This acronym is best classified under (optional):</label>
-               <select class="selectpicker" id="classTag">
-                  <option>No classification specified</option>
-                  <option>Drives</option>
-                  <option>RA Organization</option>
-                  <option>Technology</option>
-                  <option>Analytics and Cloud</option>
-                  <option>Asset Management</option>
-                  <option>Business Systems</option>
-                  <option>Internet Infastructure and Communications</option>
-                  <option>Layered Architecture</option>
-                  <option>Open Standards</option>
-               </select>
-             </p>
-             <p>* = required</p>
-           </fieldset>
-           <!-- The "Add!" button -->
-           <div class="text-center"><button ng-click="add()" type="button" id="addButton2" class='btn btn-primary btn-lg'>Add!</button><br></br></div>
-           <!-- "Thank you for your contribution..." text -->
-           <div class="container" id="thanks2"><p class='text-center' style="font-size:125%">Thank you for your contribution to our acronym search!</p></div>
-           <!-- Back button -->
-           <div class="text-center"><button type="button" class="btn" id="back" ng-click="toggleElements()"> < Back</button><br></br></div>
-         </div>
+        <!-- The data menu that is displayed when user searches for an acronym -->
+        <div class="col-md-10 col-md-offset-1 input-group">
+          <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
+           <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
+          </div>
+        </div>
       </div>
-  </div>
-</div>
+    </div>  <!-- end of searchBar div -->
 
-<!-- Footer containing copyright and links to additional pages-->
-<div class="footerfix"></div>
-<footer>
-  <div class="container" style="display:inline">
-    <p class="text-muted text-center">
-        <!-- <a href="/about">About</a> | -->
-        <!-- <a href="/privacypolicy">Privacy Policy</a> -->
-        Copyright © 2017 Rockwell Automation, Inc. All Rights Reserved.
-      <!--  <a href="/contact">Contact</a> -->
-    </p>
-  </div>
-</footer>
+    <br>
+    <div ng-hide="addAcronymElements" class="text-center">
+      <br>
+      <!-- the "Add Acronym" button -->
+      <button ng-click="toggleElements()" type="button" id="add" class='btn btn-primary btn-lg'>Add Acronym</button>
+      <br>
+      <br>
+      <p ng-hide="text1" class="text-center" style="font-size:125%">Help us maintain the data table by adding acronyms as you encounter them! Thanks in advance for your contribution!</p>
+      <p ng-show="text2" class="text-center" style="font-size:125%">Are we missing an acronym? Please add it! Thanks in advance for your contribution!</p>
+    </div>
 
-<script>
-$(document).ready(function(){
-  $('.dropdown-submenu a.test').on("click", function(e){
-    $(this).next('ul').toggle();
-    e.stopPropagation();
-    e.preventDefault();
-  });
-});
-</script>
+    <!-- the Add Acronym form -->
+    <div class="container" ng-show="addAcronymElements">
+     <legend>Add Acronym</legend>
+     <fieldset class="well">
+       <p>
+         <label>*Abbreviation:</label>
+         <input type="text" id="abbrev" placeholder=" (Example): OEM">
+
+         <div class="form-group"><label>*Definition:</label>
+           <textarea class="form-control" rows="3" id="def" placeholder="(Example): Original Equipment Manufacturer"></textarea>
+         </div>
+
+         <div class="form-group"><label>Context link (recommended):</label>
+           <textarea class="form-control" rows="1" id="contextLink" placeholder="(Example): https://en.wikipedia.org/wiki/Original_equipment_manufacturer"></textarea>
+           <p>Referring to a context link helps to provide additional information about this acronym.</p>
+         </div>
+
+         <div class="form-group"><label>Comment(s) (optional):</label>
+           <textarea class="form-control" rows="2" id="comment"></textarea>
+         </div>
+
+         <label>Business group associated with this acronym (optional):</label>
+         <select class="selectpicker" id="businessGroup">
+            <option>No group specified</option>
+            <option>A&S - Architecture & Software</option>
+            <option>CAT - Common Architecture & Technology</option>
+            <option>CP&S - Control Products & Solutions</option>
+            <option>CSM - Customer Support and Maintenance</option>
+            <option>CVB - Control and Visualization Business</option>
+            <option>Finance</option>
+            <option>GSM - Global Sales & Marketing</option>
+            <option>HR - Human Resources</option>
+            <option>IS - Information Software</option>
+            <option>ISPB - Information Software and Process Business</option>
+            <option>Kinetix - Motion Businesss</option>
+            <option>Legal</option>
+            <option>Operations</option>
+            <option>SD - Strategic Development</option>
+            <option>SSB - Systems and Solutions Business</option>
+            <option>SSCB - Sensing, Safety, and Connectivity Business</option>
+         </select>
+         <br>
+         <br>
+         <label>This acronym is best classified under (optional):</label>
+         <select class="selectpicker" id="classTag">
+            <option>No classification specified</option>
+            <option>Drives</option>
+            <option>RA Organization</option>
+            <option>Technology</option>
+            <option>Analytics and Cloud</option>
+            <option>Asset Management</option>
+            <option>Business Systems</option>
+            <option>Internet Infastructure and Communications</option>
+            <option>Layered Architecture</option>
+            <option>Open Standards</option>
+         </select>
+       </p>
+       <p>* = required</p>
+     </fieldset>
+     <!-- The "Add!" button -->
+     <div class="text-center"><button ng-click="add()" type="button" id="addButton2" class='btn btn-primary btn-lg'>Add!</button><br></br></div>
+     <!-- "Thank you for your contribution..." text -->
+     <div class="container" id="thanks2"><p class='text-center' style="font-size:125%">Thank you for your contribution to our acronym search!</p></div>
+     <!-- Back button -->
+     <div class="text-center"><button type="button" class="btn" id="back" ng-click="toggleElements()"> < Back</button><br></br></div>
+   </div> <!-- end of add acronym form -->
+
+    <!-- Modal containing information about the acronym-->
+    <div class="container">
+    <div id="infoModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title">Additional information about "{{acronym}}"</h3>
+          </div>
+          <div class="modal-body">
+            <h4>Meaning:</h4>
+            <p>{{definition}} <a ng-show="contextElement" ng-href="{{context}}">({{context}})</p></a></p>
+            <h4>Business group associated with this acronym:</h4>
+            <p ng-bind-html="business"></p>
+            <h4>Classified under:</h4>
+            <p ng-init="class='No classification'">{{classification}}</p>
+            <h4>Additional comment(s):</h4>
+            <p ng-init="comment='No comment'">{{comment}}</p>
+          </div>
+          <div class="modal-footer">
+            <!-- <span class = "form-control-static pull-left">Acronym added by [Rockwell username] on [month/day/year] at [time 00:00:00]</span> -->
+            <span class = "form-control-static pull-left">This acronym has been viewed {{clicks}} times</span>
+            <span class = "form-control-static pull-right"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal that indicates user successfully added acronym -->
+    <div id="successModal" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+       <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title">Success!</h4>
+         </div>
+         <div class="modal-body">
+           <p>Your acronym was added to the database. Thank you!</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+   </div>
+
+    <!-- Modal that alerts user to add an abbreviation if field left blank -->
+    <div id="abbrevAlert" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+       <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title">Oops!</h4>
+         </div>
+         <div class="modal-body">
+           <p>Please enter an abbreviation for the acronym.</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+   </div>
+
+    <!-- Modal that alerts user to add a definition if field left blank -->
+    <div id="defAlert" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+       <!-- Modal content-->
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title">Oops!</h4>
+         </div>
+         <div class="modal-body">
+           <p>Please enter a definition for the acronym.</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+       </div>
+     </div>
+   </div>
+
+    <!-- Footer containing copyright and links to additional pages-->
+    <div class="footerfix"></div>
+    <footer>
+      <div class="container" style="display:inline">
+        <p class="text-muted text-center">
+          <!-- <a href="/about">About</a> | -->
+          <!-- <a href="/privacypolicy">Privacy Policy</a> -->
+          Copyright © 2017 Rockwell Automation, Inc. All Rights Reserved.
+          <!--  <a href="/contact">Contact</a> -->
+        </p>
+      </div>
+    </footer>
+
+  </div> <!-- end of acronymCtrl -->
+</div> <!-- end of acronymApp -->
 
 </body>
 </html>

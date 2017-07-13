@@ -1,8 +1,8 @@
 var app = angular.module("acronymApp", ["ngSanitize"]);
 
-/* Executed when user clicks the "Add!" button on add acronym form */
-app.controller("addAcronymCtrl", function($scope, $http)
+app.controller("acronymCtrl", function($scope, $http, $location)
 {
+  /* Clears the add acronym form in the case that user clicks on "Back" button */
   $scope.toggleElements = function toggleElements()
   {
     $scope.addAcronymElements = !($scope.addAcronymElements);
@@ -15,6 +15,7 @@ app.controller("addAcronymCtrl", function($scope, $http)
     document.getElementById("classTag").value = "No classification specified";
   };
 
+  /* Adds the acronym and its information to the database when user clicks on "Add!" button */
   $scope.add = function add()
   {
     var abbrev = document.getElementById("abbrev");
@@ -74,19 +75,15 @@ app.controller("addAcronymCtrl", function($scope, $http)
         console.log("Error", req.statusText);
       }
     }
-    req.send(null); // send request to searchDatabase.php file
+    req.send(null);
   }
-});
 
-/* Search controller */
-app.controller("searchCtrl", function($scope, $http, $location)
-{
   $scope.filterSearch = function filterSearch(filterVal)
   {
     $scope.filter = filterVal;
   };
 
-  /* User clicks on a search result */
+  /* Gathers the acronym information and displays info modal when user clicks on a search result */
   $scope.infoPage = function infoPage(index)
   {
     var acronym = $scope.jsObj.acronym[index];
@@ -131,7 +128,7 @@ app.controller("searchCtrl", function($scope, $http, $location)
     $("#infoModal").modal();
   };
 
-  /* User types into search bar */
+  /* Generates results when user types into search bar */
   $scope.search = function search()
   {
     var str = document.getElementById("searchInput").value;
@@ -199,7 +196,6 @@ app.controller("searchCtrl", function($scope, $http, $location)
 /* Takes the business group that the acronym belongs to and links that group with its respective information page */
 function getGroupLink(business)
 {
-    console.log(business);
     if (business == "A&S - Architecture & Software")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf'>" +business+ "</a>";
     if (business == "CAT - Common Architecture & Technology")
@@ -222,6 +218,16 @@ function getGroupLink(business)
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf'>" +business+ "</a>";
     if (business == "SSB - Systems and Solutions Business")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf'>" +business+ "</a>";
-
     return business;
 }
+
+/* Enables dropdown menu in the filter option on search bar */
+$(document).ready(function()
+{
+  $('.dropdown-submenu a.test').on("click", function(e)
+  {
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
