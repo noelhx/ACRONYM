@@ -103,8 +103,12 @@ app.controller("searchCtrl", function($scope, $http, $location)
     $scope.classification = classification;
     if (context != "None")  // if context link provided for this acronym, display the link
     {
-      $scope.context = context;
-      $scope.contextElement = true;
+        $scope.context = context;
+        $scope.contextElement = true;
+    }
+    else
+    {
+        $scope.contextElement = false;
     }
     if (business == "No group specified")
     {

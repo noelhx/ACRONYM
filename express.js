@@ -93,7 +93,7 @@ app.post('/query/:string/:filter', function(req, res)
   }
   else if (filter == "Technology%")
   {
-    sql = "SELECT * FROM acronym_table WHERE class LIKE 'Analytics and Cloud' OR class LIKE 'Asset Management' OR class LIKE 'Business Systems' OR class like 'Internet Infastructure and Communications' AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+    sql = "SELECT * FROM acronym_table WHERE class LIKE 'Technology' OR class LIKE 'Analytics and Cloud' OR class LIKE 'Asset Management' OR class LIKE 'Business Systems' OR class LIKE 'Internet Infastructure and Communications' OR class LIKE 'Layered Architecture' OR class LIKE 'Open Standards' OR class LIKE 'Process Control' OR class LIKE 'Security' OR class LIKE 'Web Site Development' AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   }
   else
   {
