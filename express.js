@@ -73,7 +73,6 @@ app.post('/add/:acronym/:def/:comment/:business/:classification/:contextLink', f
   var business = req.params.business;
   var classification = req.params.classification;
   var contextLink = unescape(req.params.contextLink); // parse context url back to original format
-  console.log("contextLink is " +contextLink);
   var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class, context_link) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "', '" +contextLink+ "')";
   con.query(sql, function(err, result, fields)
   {
@@ -92,10 +91,15 @@ app.post('/query/:string/:filter', function(req, res)
   {
     sql = "SELECT * FROM acronym_table WHERE (acronym LIKE '" +string+ "') OR (definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   }
+  else if (filter == "Technology%")
+  {
+    sql = "SELECT * FROM acronym_table WHERE class LIKE 'Analytics and Cloud' OR class LIKE 'Asset Management' OR class LIKE 'Business Systems' OR class like 'Internet Infastructure and Communications' AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+  }
   else
   {
     sql = "SELECT * FROM acronym_table WHERE (class LIKE '" +filter+ "') AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   }
+
   var jsObj = {   // javascript object that will be converted to JSON text when response is sent
     acronym: [],
     definition: [],
