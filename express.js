@@ -2,6 +2,7 @@ var express = require('express');
 var mysql = require('mysql');
 var favicon = require('serve-favicon');
 var path = require('path');
+var config = require('./config');   // MySQL database configuration file
 var app = express();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // Use favicon.ico
@@ -13,11 +14,12 @@ var server = app.listen(5000, function () {
 });
 
 // Establish connection to acronym_import database
+var db = config.database;
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "Shannon",
-  password: "YOLOmoney$$$444",
-  database: "acronym_import"
+  host: db.host,
+  user: db.user,
+  password: db.password,
+  database: db.database
 });
 
 // Connect to database
