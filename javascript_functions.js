@@ -18,12 +18,12 @@ app.controller("acronymCtrl", function($scope, $http, $location)
   /* Adds the acronym and its information to the database when user clicks on "Add!" button */
   $scope.add = function add()
   {
-    var abbrev = encodeURIComponent(document.getElementById("abbrev").value);
-    var def = encodeURIComponent(document.getElementById("def").value);
-    var comment = encodeURIComponent(document.getElementById("comment").value);
+    var abbrev = encodeURIComponent(insertSlashes(document.getElementById("abbrev").value));
+    var def = encodeURIComponent(insertSlashes(document.getElementById("def").value));
+    var comment = encodeURIComponent(insertSlashes(document.getElementById("comment").value));
     var business = encodeURIComponent(document.getElementById("businessGroup").value);
     var classification = encodeURIComponent(document.getElementById("classTag").value);
-    var contextLinkVal = encodeURIComponent(document.getElementById("contextLink").value);
+    var contextLinkVal = encodeURIComponent(insertSlashes(document.getElementById("contextLink").value));
     // Check if abbreviation or definition fields are blank
     if (abbrev == "")
     {
@@ -113,7 +113,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
 
     // Send request to MySQL acronym database to increment clicks
     var req = new XMLHttpRequest();
-    acronym = encodeURIComponent(acronym);
+    acronym = encodeURIComponent(insertSlashes(acronym));
     req.open("POST","/increment/"+acronym, true);
     req.send(null);
     var clicks = $scope.jsObj.clicks[index];
@@ -148,6 +148,10 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     }
     else
     {
+      if (str.includes("'") || str.includes("."))  // if string contains a single quote or period, insert backslashes before those characters to prevent server crash
+      {
+        str = insertSlashes(str);
+      }
       str = encodeURIComponent(str);
       req.open("POST","/query/"+str+"/"+filter, true);
       req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
@@ -216,6 +220,33 @@ function getGroupLink(business)
     if (business == "SSB - Systems and Solutions Business")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf'>" +business+ "</a>";
     return business;
+}
+
+/*
+ *  Inserts a backslash before each single quote character in the given string str
+ *  Uses the insertHelper function
+ */
+function insertSlashes(str)
+{
+  var length = str.length;
+  for (i = 0; i < length; i++)
+  {
+    if (str.charAt(i) == "'" || str.charAt(i) == ".")
+    {
+      str = insertHelper(str, i);
+      i++;
+      length++;
+    }
+  }
+  return str;
+}
+
+/*
+ * Inserts a backslash character into the string BEFORE the specified index of that string
+ */
+function insertHelper (string, index)
+{
+  return string.substr(0, (index)) + "\\" + string.substr(index, string.length);
 }
 
 /* Enables dropdown menu in the filter option on search bar */
