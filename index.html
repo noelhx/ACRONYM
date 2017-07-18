@@ -96,13 +96,13 @@
             <ul class="dropdown-menu">
               <li><a tabindex="-1" ng-click="filterSearch('All')">All</a></li>
               <hr style="margin-top:2px; margin-bottom:2px;">
-              <li><a tabindex="-1" ng-click="filterSearch('Drives')">Drives</a></li>
               <li class="dropdown-submenu">
                 <a class="test" tabindex="-1" ng-click="filterSearch('Technology')">Technology <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a tabindex="-1" ng-click="filterSearch('Analytics and Cloud')">Analytics and Cloud</a></li>
                   <li><a tabindex="-1" ng-click="filterSearch('Asset Management')">Asset Management</a></li>
                   <li><a tabindex="-1" ng-click="filterSearch('Business Systems')">Business Systems</a></li>
+                  <li><a tabindex="-1" ng-click="filterSearch('Computer Hardware')">Computer Hardware</a></li>
                   <li><a tabindex="-1" ng-click="filterSearch('Internet Infastructure and Communications')">Internet Infastructure and Communications</a></li>
                   <li><a tabindex="-1" ng-click="filterSearch('Layered Architecture')">Layered Architecture</a></li>
                   <li><a tabindex="-1" ng-click="filterSearch('Open Standards')">Open Standards</a></li>
@@ -119,7 +119,7 @@
         <!-- The data menu that is displayed when user searches for an acronym -->
         <div class="col-md-10 col-md-offset-1 input-group">
           <div class="input-group form-control" ng-show="setDisplay" style="height:150px; overflow-y:scroll; overflow-x:hidden">
-           <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records" ng-click="infoPage($index)" ng-bind-html="x"></p>
+           <p id="dataMenu" ng-class="{highlight: hover}" ng-mouseenter="hover=true" ng-mouseleave="hover=false" ng-repeat="x in records track by $index" ng-click="infoPage($index)" ng-bind-html="x"></p>
           </div>
         </div>
       </div>

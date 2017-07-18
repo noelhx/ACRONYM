@@ -87,7 +87,6 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var business = $scope.jsObj.business[index];
     var classification = $scope.jsObj.classification[index];
     var context = $scope.jsObj.context[index];
-
     // Update the scope with the acronym's information
     $scope.acronym = acronym;
     $scope.definition = def;

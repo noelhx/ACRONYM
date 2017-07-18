@@ -75,7 +75,7 @@ app.post('/add/:acronym/:def/:comment/:business/:classification/:contextLink', f
   var business = decodeURIComponent(req.params.business);
   var classification = decodeURIComponent(req.params.classification);
   var contextLink = decodeURIComponent(req.params.contextLink);   // parse context url back to original format
-  var sql = "INSERT INTO acronym_table (acronym, definition, cmt, clicks, business, class, context_link) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "', '" +contextLink+ "')";
+  var sql = "INSERT INTO acronym_table (acronym, definition, comment, clicks, business, classification, context) VALUES ('" +acronym+ "', '" +def+ "', '" +comment+ "', '0', '" +business+ "', '" +classification+ "', '" +contextLink+ "')";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
@@ -95,11 +95,11 @@ app.post('/query/:string/:filter', function(req, res)
   }
   else if (filter == "Technology%")
   {
-    sql = "SELECT * FROM acronym_table WHERE class LIKE 'Technology' OR class LIKE 'Analytics and Cloud' OR class LIKE 'Asset Management' OR class LIKE 'Business Systems' OR class LIKE 'Internet Infastructure and Communications' OR class LIKE 'Layered Architecture' OR class LIKE 'Open Standards' OR class LIKE 'Process Control' OR class LIKE 'Security' OR class LIKE 'Web Site Development' AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+    sql = "SELECT * FROM acronym_table WHERE (classification LIKE 'Technology' OR classification LIKE 'Analytics and Cloud' OR classification LIKE 'Asset Management' OR classification LIKE 'Business Systems' OR classification LIKE 'Internet Infastructure and Communications' OR classification LIKE 'Layered Architecture' OR classification LIKE 'Open Standards' OR classification LIKE 'Process Control' OR classification LIKE 'Security' OR classification LIKE 'Web Site Development' OR classification LIKE 'Computer Hardware' OR classification LIKE 'Computer Networks' OR classification LIKE 'Computer Software') AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   }
   else
   {
-    sql = "SELECT * FROM acronym_table WHERE (class LIKE '" +filter+ "') AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
+    sql = "SELECT * FROM acronym_table WHERE (classification LIKE '" +filter+ "') AND (acronym LIKE '" +string+ "' OR definition LIKE '" +string+ "') ORDER BY clicks DESC, acronym";
   }
 
   var jsObj = {   // javascript object that will be converted to JSON text when response is sent
@@ -125,11 +125,11 @@ app.post('/query/:string/:filter', function(req, res)
       {
         var acronymToAdd = result[i].acronym;
         var defToAdd = result[i].definition;
-        var commentToAdd = result[i].cmt;
+        var commentToAdd = result[i].comment;
         var clicksToAdd = result[i].clicks;
         var businessToAdd = result[i].business;
-        var classToAdd = result[i].class;
-        var contextToAdd = result[i].context_link;
+        var classToAdd = result[i].classification;
+        var contextToAdd = result[i].context;
         jsObj.acronym.push(acronymToAdd);
         jsObj.definition.push(defToAdd);
         jsObj.comment.push(commentToAdd);
