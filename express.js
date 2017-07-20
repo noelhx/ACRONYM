@@ -36,6 +36,23 @@ app.get('/', function (req, res)
   return res.sendFile('C://WebApp2/index.html');
 });
 
+/* About page */
+app.get('/about', function (req, res)
+{
+  return res.sendFile('C://WebApp2/about.html');
+});
+
+/* Privacy policy page */
+app.get('/privacypolicy', function (req, res)
+{
+  return res.sendFile('C://WebApp2/privacypolicy.html');
+});
+
+/* Contact page */
+app.get('/contact', function (req, res)
+{
+  return res.sendFile('C://WebApp2/contact.html');
+});
 
 /* Route for when user clicks on search result and the acronym clicks needs to be incremented */
 app.post('/increment/:acronym', function(req, res)

@@ -2,13 +2,6 @@ var app = angular.module("acronymApp", ["ngSanitize"]);
 
 app.controller("acronymCtrl", function($scope, $http, $location)
 {
-
-  $scope.examine = function examine(index)
-  {
-    var acronym = $scope.jsObj.acronym[index];
-    var definition = $scope.jsObj.definition[index];
-  };
-
   /* Clears the add acronym form in the case that user clicks on "Back" button */
   $scope.toggleElements = function toggleElements()
   {
