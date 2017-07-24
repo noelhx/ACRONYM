@@ -1,4 +1,5 @@
-import sys, json, wikipedia
+import sys, json, warnings, wikipedia
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -20,6 +21,5 @@ except:
 
 page = json.dumps((wikipedia.page(keyword)).url)  # the wikipedia page that is being scraped
 descrip = json.dumps(wikipedia.summary(keyword, sentences=1))
-
 
 print '{ "description":' +descrip+ ', "page_url":' +page+ ' }'  # prints in JSON format

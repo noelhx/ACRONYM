@@ -62,18 +62,26 @@ app.post('/increment/:acronym/:definition', function(req, res)
 
   PythonShell.run('wikiscrape.py', options, function (err, results)
   {
-    if (err) throw err;
-    var description = JSON.parse(results).description;
-    var page_url = JSON.parse(results).page_url;
-    console.log(description);
-    console.log(page_url);
+    if (err)
+    {
+      jsDescripObj.description = "No description available";
+      jsDescripObj.page_url = "No page found";
+      res.json(-1);
+    }
+    else
+    {
+      var description = JSON.parse(results).description;
+      var page_url = JSON.parse(results).page_url;
+      //console.log(description);
+      //console.log(page_url);
 
-    if (description == "No description available")
-        res.json(-1);
+      if (description == "No description available")
+          res.json(-1);
 
-    jsDescripObj.description = description;
-    jsDescripObj.page_url = page_url;
-    res.json(jsDescripObj);
+      jsDescripObj.description = description;
+      jsDescripObj.page_url = page_url;
+      res.json(jsDescripObj);
+    }
   });
 });
 
