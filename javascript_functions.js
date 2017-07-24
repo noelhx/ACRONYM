@@ -93,38 +93,43 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var comment = $scope.jsObj.comment[index];
     var business = $scope.jsObj.business[index];
     var classification = $scope.jsObj.classification[index];
-    var context = $scope.jsObj.context[index];
     // Update the scope with the acronym's information
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
     $scope.classification = classification;
-    if (context != "None")  // if context link provided for this acronym, display the link
-    {
-        $scope.context = context;
-        $scope.contextElement = true;
-    }
-    else
-    {
-        $scope.contextElement = false;
-    }
-    if (business == "No group specified")
-    {
-        $scope.business = business;
-    }
-    else
-    {
-        $scope.business = getGroupLink(business);
-    }
 
-    // Send request to MySQL acronym database to increment clicks
+    if (business == "No group specified")
+        $scope.business = business;
+    else
+        $scope.business = getGroupLink(business);
+
+    // Send request to MySQL acronym database to increment clicks and get data from wikipedia page
     var req = new XMLHttpRequest();
     acronym = encodeURIComponent(insertSlashes(acronym));
-    req.open("POST","/increment/"+acronym, true);
+    req.open("POST","/increment/"+acronym+"/"+def, true);
+    req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
+    function pollStateChange()
+    {
+      if (this.readyState == 4 && this.status == 200)
+      {
+        var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
+        if (jsonResults == -1)
+        {
+          $scope.context = "";
+          $scope.description = "";
+        }
+        else
+        {
+          $scope.description = jsonResults.description;
+          $scope.context = jsonResults.page_url;
+        }
+      }
+    }
+
     req.send(null);
     var clicks = $scope.jsObj.clicks[index];
     $scope.clicks = clicks;
-
     // Launch the information modal
     $("#infoModal").modal();
   };

@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var favicon = require('serve-favicon');
 var path = require('path');
 var config = require('./config');   // MySQL database configuration file
+var PythonShell = require('python-shell');
 var app = express();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // Use favicon.ico
@@ -38,14 +39,41 @@ app.get('/', function (req, res)
 
 
 /* Route for when user clicks on search result and the acronym clicks needs to be incremented */
-app.post('/increment/:acronym', function(req, res)
+app.post('/increment/:acronym/:definition', function(req, res)
 {
+  // increment clicks
   var acronym = decodeURIComponent(req.params.acronym);
   var sql = "UPDATE acronym_table SET clicks = clicks + 1 WHERE acronym = '" + acronym + "'";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
-    res.end();
+  });
+
+  // get the info about this acronym from wikipedia page
+  var options = {
+    mode: 'text',
+    args: [req.params.definition]
+  };
+
+  var jsDescripObj = {   // javascript object
+    description: "",
+    page_url: ""
+  };
+
+  PythonShell.run('wikiscrape.py', options, function (err, results)
+  {
+    if (err) throw err;
+    var description = JSON.parse(results).description;
+    var page_url = JSON.parse(results).page_url;
+    console.log(description);
+    console.log(page_url);
+
+    if (description == "No description available")
+        res.json(-1);
+
+    jsDescripObj.description = description;
+    jsDescripObj.page_url = page_url;
+    res.json(jsDescripObj);
   });
 });
 
