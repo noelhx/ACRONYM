@@ -108,30 +108,34 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var req = new XMLHttpRequest();
     acronym = encodeURIComponent(insertSlashes(acronym));
     req.open("POST","/increment/"+acronym+"/"+def, true);
-    req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
-    function pollStateChange()
+    $("#loadingModal").modal();
+    // when server response is ready, call the function
+    req.onreadystatechange = function()
     {
-      if (this.readyState == 4 && this.status == 200)
       {
-        var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
-        if (jsonResults == -1)
+        if (this.readyState == 4 && this.status == 200)
         {
-          $scope.context = "";
-          $scope.description = "";
-        }
-        else
-        {
-          $scope.description = jsonResults.description;
-          $scope.context = jsonResults.page_url;
+          var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
+          if (jsonResults == -1)
+          {
+            $scope.context = "";
+            $scope.description = "";
+            $scope.clicks = $scope.jsObj.clicks[index]++;
+          }
+          else
+          {
+            $scope.description = jsonResults.description;
+            $scope.context = jsonResults.page_url;
+            $scope.clicks = $scope.jsObj.clicks[index]++;
+          }
+          $scope.$apply();
+          $("#loadingModal").modal('hide'); // Hide the loading screen modal
+          $("#infoModal").modal();  // Launch the information modal
         }
       }
-    }
+    };
 
     req.send(null);
-    var clicks = $scope.jsObj.clicks[index];
-    $scope.clicks = clicks;
-    // Launch the information modal
-    $("#infoModal").modal();
   };
 
   /* Generates results when user types into search bar */
@@ -141,6 +145,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var filter = $scope.filter;
     var req = new XMLHttpRequest();
     $scope.records = [];
+    // note for self: by saying $scope for the jsObj, i'm making the jsObj global so I can access it through other functions
     $scope.jsObj = {   // javascript object that keeps track of the resulting acronyms and their info when user searches
       acronym: [],
       definition: [],
@@ -160,46 +165,47 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     else
     {
       if (str.includes("'") || str.includes("."))  // if string contains a single quote or period, insert backslashes before those characters to prevent server crash
-      {
-        str = insertSlashes(str);
-      }
+          str = insertSlashes(str);
+
       str = encodeURIComponent(str);
       req.open("POST","/query/"+str+"/"+filter, true);
-      req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
-      function pollStateChange()
+      // When server response is ready, call the function
+      req.onreadystatechange = function()
       {
-        if (this.readyState == 4 && this.status == 200)
         {
-          var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
-          if (jsonResults == -1)
+          if (this.readyState == 4 && this.status == 200)
           {
-            $scope.records = ["No results"];
+            var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
+            if (jsonResults == -1)
+            {
+              $scope.records = ["No results"];
+            }
+            else
+            {
+              for (i in jsonResults.acronym)
+              {
+                $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i]); // only the acronym and its definition are displayed in search results box
+
+                $scope.jsObj.acronym.push(jsonResults.acronym[i]);
+                $scope.jsObj.definition.push(jsonResults.definition[i]);
+                $scope.jsObj.comment.push(jsonResults.comment[i]);
+                $scope.jsObj.clicks.push(jsonResults.clicks[i]);
+                $scope.jsObj.business.push(jsonResults.business[i]);
+                $scope.jsObj.classification.push(jsonResults.classification[i]);
+                $scope.jsObj.context.push(jsonResults.context[i]);
+              }
+            }
+            $scope.setDisplay = true;
+            $scope.text1 = true;
+            $scope.text2 = true;
+            $scope.$apply();
           }
           else
           {
-            for (i in jsonResults.acronym)
-            {
-              $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i]); // only the acronym and its definition display in the search results
-
-              $scope.jsObj.acronym.push(jsonResults.acronym[i]);
-              $scope.jsObj.definition.push(jsonResults.definition[i]);
-              $scope.jsObj.comment.push(jsonResults.comment[i]);
-              $scope.jsObj.clicks.push(jsonResults.clicks[i]);
-              $scope.jsObj.business.push(jsonResults.business[i]);
-              $scope.jsObj.classification.push(jsonResults.classification[i]);
-              $scope.jsObj.context.push(jsonResults.context[i]);
-            }
+            console.log("Error", req.statusText);
           }
-          $scope.setDisplay = true;
-          $scope.text1 = true;
-          $scope.text2 = true;
-          $scope.$apply();
         }
-        else
-        {
-          console.log("Error", req.statusText);
-        }
-      }
+      };
       req.send(null);
     }
   }

@@ -29,7 +29,7 @@ con.connect(function(err) {
     console.log("Successfully connected to acronym database.");
 });
 
-// Define routes here...
+// Routes defined here...
 
 /* Homepage */
 app.get('/', function (req, res)
@@ -37,11 +37,10 @@ app.get('/', function (req, res)
   return res.sendFile('C://WebApp2/index.html');
 });
 
-
-/* Route for when user clicks on search result and the acronym clicks needs to be incremented */
+/* Route for when user clicks on a search result */
 app.post('/increment/:acronym/:definition', function(req, res)
 {
-  // increment clicks
+  // Increment clicks of this acronym in database
   var acronym = decodeURIComponent(req.params.acronym);
   var sql = "UPDATE acronym_table SET clicks = clicks + 1 WHERE acronym = '" + acronym + "'";
   con.query(sql, function(err, result, fields)
@@ -49,38 +48,37 @@ app.post('/increment/:acronym/:definition', function(req, res)
     if (err) throw err;
   });
 
-  // get the info about this acronym from wikipedia page
+  // Get the info about this acronym from wikipedia page
   var options = {
     mode: 'text',
     args: [req.params.definition]
   };
 
-  var jsDescripObj = {   // javascript object
+  var jsDescripObj = {   // javascript object containing this acronym's description and url from wikipedia page
     description: "",
     page_url: ""
   };
 
+  // use PythonShell to run wikiscrape.py to scrape info from wiki page
   PythonShell.run('wikiscrape.py', options, function (err, results)
   {
     if (err)
     {
       jsDescripObj.description = "No description available";
       jsDescripObj.page_url = "No page found";
-      res.json(-1);
+      return res.json(-1);
     }
     else
     {
       var description = JSON.parse(results).description;
       var page_url = JSON.parse(results).page_url;
-      //console.log(description);
-      //console.log(page_url);
 
       if (description == "No description available")
-          res.json(-1);
+          return res.json(-1);
 
       jsDescripObj.description = description;
       jsDescripObj.page_url = page_url;
-      res.json(jsDescripObj);
+      return res.json(jsDescripObj);
     }
   });
 });
