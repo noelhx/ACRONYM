@@ -1,4 +1,5 @@
 import sys, json, warnings, wikipedia
+from keywords import classify
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -14,12 +15,14 @@ for x in range(1, len(sys.argv)):
 try:
     wikipedia.page(keyword)
 except:
-    page = "No page found"
-    descrip = "No description available"
-    print '{ "description":"' +descrip+ '", "page_url":"' +page+ '" }'  # prints in JSON format
+    descrip = json.dumps("No description available")
+    page = json.dumps("No page found")
+    businesses = json.dumps("No group specified")
+    print '{ "description":' +descrip+ ', "page_url":' +page+ ', "businesses":' +businesses+ ' }'  # prints in JSON format
     sys.exit()
 
+descrip = json.dumps(wikipedia.summary(keyword, sentences=2))
 page = json.dumps((wikipedia.page(keyword)).url)  # the wikipedia page that is being scraped
-descrip = json.dumps(wikipedia.summary(keyword, sentences=1))
+businesses = json.dumps(classify(keyword))
 
-print '{ "description":' +descrip+ ', "page_url":' +page+ ' }'  # prints in JSON format
+print '{ "description":' +descrip+ ', "page_url":' +page+ ', "businesses":' +businesses+ ' }'  # prints in JSON format

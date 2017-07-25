@@ -56,7 +56,8 @@ app.post('/increment/:acronym/:definition', function(req, res)
 
   var jsDescripObj = {   // javascript object containing this acronym's description and url from wikipedia page
     description: "",
-    page_url: ""
+    page_url: "",
+    businesses: ""
   };
 
   // use PythonShell to run wikiscrape.py to scrape info from wiki page
@@ -66,18 +67,21 @@ app.post('/increment/:acronym/:definition', function(req, res)
     {
       jsDescripObj.description = "No description available";
       jsDescripObj.page_url = "No page found";
+      jsDescripObj.businesses = "No group specified";
       return res.json(-1);
     }
     else
     {
       var description = JSON.parse(results).description;
       var page_url = JSON.parse(results).page_url;
+      var businesses = JSON.parse(results).businesses;
 
       if (description == "No description available")
           return res.json(-1);
 
       jsDescripObj.description = description;
       jsDescripObj.page_url = page_url;
+      jsDescripObj.businesses = businesses;
       return res.json(jsDescripObj);
     }
   });

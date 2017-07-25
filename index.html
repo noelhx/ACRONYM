@@ -13,6 +13,8 @@
   <link rel="stylesheet" type="text/css" href="css/custom.css">
   <!-- Optional theme from Bootstrap -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+  <!-- Stylesheet for font awesome icons (used for loading spinner animation) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Latest compiled and minified JavaScript -->
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- AngularJS framework -->
@@ -203,6 +205,18 @@
      <div class="text-center"><button type="button" class="btn" id="back" ng-click="toggleElements()"> < Back</button><br></br></div>
    </div> <!-- end of add acronym form -->
 
+   <!-- Loading modal -->
+   <div id="loadingModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <p class='text-center'><i class="fa fa-refresh fa-spin"></i> Loading acronym info...</p>
+        </div>
+      </div>
+    </div>
+   </div>
+
     <!-- Modal containing information about the acronym-->
     <div class="container">
       <div id="infoModal" class="modal fade" role="dialog">
@@ -217,8 +231,8 @@
               <h4>Meaning and Description:</h4>
               <p><u>{{definition}}</u></p>
               <p>{{description}}</p>
-              <p><a ng-href="{{context}}">{{context}}</a></p>
-              <h4>Business group associated with this acronym:</h4>
+              <p>{{sourcetxt}}<a ng-href="{{context}}">{{context}}</a></p>
+              <h4>Business group(s) associated with this acronym:</h4>
               <p ng-bind-html="business"></p>
               <h4>Classified under:</h4>
               <p ng-init="class='No classification'">{{classification}}</p>
@@ -233,19 +247,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Loading Modal -->
-    <div id="loadingModal" class="modal fade" role="dialog">
-     <div class="modal-dialog">
-       <!-- Modal content-->
-       <div class="modal-content">
-         <div class="modal-body">
-           <p>Loading info acronym info...</p>
-           <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-         </div>
-       </div>
-     </div>
     </div>
 
     <!-- Modal that indicates user successfully added acronym -->

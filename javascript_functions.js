@@ -91,18 +91,12 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
-    var business = $scope.jsObj.business[index];
     var classification = $scope.jsObj.classification[index];
     // Update the scope with the acronym's information
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
     $scope.classification = classification;
-
-    if (business == "No group specified")
-        $scope.business = business;
-    else
-        $scope.business = getGroupLink(business);
 
     // Send request to MySQL acronym database to increment clicks and get data from wikipedia page
     var req = new XMLHttpRequest();
@@ -119,13 +113,27 @@ app.controller("acronymCtrl", function($scope, $http, $location)
           if (jsonResults == -1)
           {
             $scope.context = "";
+            $scope.sourcetxt = "";
             $scope.description = "";
             $scope.clicks = $scope.jsObj.clicks[index]++;
+            $scope.business = getGroupLink($scope.jsObj.business[index]);
           }
           else
           {
             $scope.description = jsonResults.description;
+            $scope.sourcetxt = "Source: ";
             $scope.context = jsonResults.page_url;
+
+            $scope.business = "";
+            var businesses = jsonResults.businesses;
+            for (x = 0; x < businesses.length; x++)
+            {
+              if (x == businesses.length - 1)
+                  $scope.business += getGroupLink(businesses[x]);
+              else
+                  $scope.business += getGroupLink(businesses[x]) + ", ";
+            }
+
             $scope.clicks = $scope.jsObj.clicks[index]++;
           }
           $scope.$apply();
@@ -214,27 +222,27 @@ app.controller("acronymCtrl", function($scope, $http, $location)
 /* Takes the business group that the acronym belongs to and links that group with its respective information page */
 function getGroupLink(business)
 {
-    if (business == "A&S - Architecture & Software")
+    if (business == "A&S")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf'>" +business+ "</a>";
-    if (business == "CAT - Common Architecture & Technology")
+    if (business == "CAT")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CAT/CAT.pdf'>" +business+ "</a>";
-    if (business == "CP&S - Control Products & Solutions")
+    if (business == "CP&S")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CP&S.pdf'>" +business+ "</a>";
-    if (business == "CSM - Customer Support and Maintenance")
+    if (business == "CSM")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CSM/CSM.pdf'>" +business+ "</a>";
-    if (business == "CVB - Control and Visualization Business")
+    if (business == "CVB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CVB/CVB.pdf'>" +business+ "</a>";
-    if (business == "GSM - Global Sales & Marketing")
+    if (business == "GSM")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/GSM.pdf'>" +business+ "</a>";
-    if (business == "HR - Human Resources")
+    if (business == "HR")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/HR.pdf'>" +business+ "</a>";
-    if (business == "IS - Information Software")
+    if (business == "IS")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB%20%E2%80%93%20Global%20IS%20Delivery.pdf'>" +business+ "</a>";
-    if (business == "ISPB - Information Software and Process Business")
+    if (business == "ISPB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB.pdf'>" +business+ "</a>";
-    if (business == "SD - Strategic Development")
+    if (business == "SD")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf'>" +business+ "</a>";
-    if (business == "SSB - Systems and Solutions Business")
+    if (business == "SSB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf'>" +business+ "</a>";
     return business;
 }
