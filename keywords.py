@@ -77,4 +77,7 @@ def classify (definition):
             businesses.append("SSCB")
             break
 
+    if len(businesses) == 0:
+        businesses.append("No group specified")
+
     return businesses   # return the list of business groups that fit this acronym's description
