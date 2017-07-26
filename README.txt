@@ -1,4 +1,4 @@
-# WebApp2
+# ACRONYM
 A simple web application that allows users to search for acronyms that are commonly used at Rockwell Automation.
 
 # Background
