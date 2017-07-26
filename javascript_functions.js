@@ -2,6 +2,13 @@ var app = angular.module("acronymApp", ["ngSanitize"]);
 
 app.controller("acronymCtrl", function($scope, $http, $location)
 {
+
+  $scope.examine = function examine(index)
+  {
+    var acronym = $scope.jsObj.acronym[index];
+    var definition = $scope.jsObj.definition[index];
+  };
+
   /* Clears the add acronym form in the case that user clicks on "Back" button */
   $scope.toggleElements = function toggleElements()
   {
@@ -84,42 +91,59 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var acronym = $scope.jsObj.acronym[index];
     var def = $scope.jsObj.definition[index];
     var comment = $scope.jsObj.comment[index];
-    var business = $scope.jsObj.business[index];
     var classification = $scope.jsObj.classification[index];
-    var context = $scope.jsObj.context[index];
     // Update the scope with the acronym's information
     $scope.acronym = acronym;
     $scope.definition = def;
     $scope.comment = comment;
     $scope.classification = classification;
-    if (context != "None")  // if context link provided for this acronym, display the link
-    {
-        $scope.context = context;
-        $scope.contextElement = true;
-    }
-    else
-    {
-        $scope.contextElement = false;
-    }
-    if (business == "No group specified")
-    {
-        $scope.business = business;
-    }
-    else
-    {
-        $scope.business = getGroupLink(business);
-    }
 
-    // Send request to MySQL acronym database to increment clicks
+    // Send request to MySQL acronym database to increment clicks and get data from wikipedia page
     var req = new XMLHttpRequest();
     acronym = encodeURIComponent(insertSlashes(acronym));
-    req.open("POST","/increment/"+acronym, true);
-    req.send(null);
-    var clicks = $scope.jsObj.clicks[index];
-    $scope.clicks = clicks;
+    req.open("POST","/increment/"+acronym+"/"+def, true);
+    $("#loadingModal").modal();
+    // when server response is ready, call the function
+    req.onreadystatechange = function()
+    {
+      {
+        if (this.readyState == 4 && this.status == 200)
+        {
+          var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
+          if (jsonResults == -1)
+          {
+            $scope.context = "";
+            $scope.sourcetxt = "";
+            $scope.description = "";
+            $scope.clicks = $scope.jsObj.clicks[index]++;
+            $scope.business = getGroupLink($scope.jsObj.business[index]);
+          }
+          else
+          {
+            $scope.description = jsonResults.description;
+            $scope.sourcetxt = "Source: ";
+            $scope.context = jsonResults.page_url;
 
-    // Launch the information modal
-    $("#infoModal").modal();
+            $scope.business = "";
+            var businesses = jsonResults.businesses;
+            for (x = 0; x < businesses.length; x++)
+            {
+              if (x == businesses.length - 1)
+                  $scope.business += getGroupLink(businesses[x]);
+              else
+                  $scope.business += getGroupLink(businesses[x]) + ", ";
+            }
+
+            $scope.clicks = $scope.jsObj.clicks[index]++;
+          }
+          $scope.$apply();
+          $("#loadingModal").modal('hide'); // Hide the loading screen modal
+          $("#infoModal").modal();  // Launch the information modal
+        }
+      }
+    };
+
+    req.send(null);
   };
 
   /* Generates results when user types into search bar */
@@ -129,6 +153,7 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     var filter = $scope.filter;
     var req = new XMLHttpRequest();
     $scope.records = [];
+    // note for self: by saying $scope for the jsObj, i'm making the jsObj global so I can access it through other functions
     $scope.jsObj = {   // javascript object that keeps track of the resulting acronyms and their info when user searches
       acronym: [],
       definition: [],
@@ -148,46 +173,47 @@ app.controller("acronymCtrl", function($scope, $http, $location)
     else
     {
       if (str.includes("'") || str.includes("."))  // if string contains a single quote or period, insert backslashes before those characters to prevent server crash
-      {
-        str = insertSlashes(str);
-      }
+          str = insertSlashes(str);
+
       str = encodeURIComponent(str);
       req.open("POST","/query/"+str+"/"+filter, true);
-      req.onreadystatechange = pollStateChange;   // when server response is ready, call the function
-      function pollStateChange()
+      // When server response is ready, call the function
+      req.onreadystatechange = function()
       {
-        if (this.readyState == 4 && this.status == 200)
         {
-          var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
-          if (jsonResults == -1)
+          if (this.readyState == 4 && this.status == 200)
           {
-            $scope.records = ["No results"];
+            var jsonResults = JSON.parse(req.responseText); // parse the JSON text into javascript object
+            if (jsonResults == -1)
+            {
+              $scope.records = ["No results"];
+            }
+            else
+            {
+              for (i in jsonResults.acronym)
+              {
+                $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i]); // only the acronym and its definition are displayed in search results box
+
+                $scope.jsObj.acronym.push(jsonResults.acronym[i]);
+                $scope.jsObj.definition.push(jsonResults.definition[i]);
+                $scope.jsObj.comment.push(jsonResults.comment[i]);
+                $scope.jsObj.clicks.push(jsonResults.clicks[i]);
+                $scope.jsObj.business.push(jsonResults.business[i]);
+                $scope.jsObj.classification.push(jsonResults.classification[i]);
+                $scope.jsObj.context.push(jsonResults.context[i]);
+              }
+            }
+            $scope.setDisplay = true;
+            $scope.text1 = true;
+            $scope.text2 = true;
+            $scope.$apply();
           }
           else
           {
-            for (i in jsonResults.acronym)
-            {
-              $scope.records.push(jsonResults.acronym[i] + ": " + jsonResults.definition[i]); // only the acronym and its definition display in the search results
-
-              $scope.jsObj.acronym.push(jsonResults.acronym[i]);
-              $scope.jsObj.definition.push(jsonResults.definition[i]);
-              $scope.jsObj.comment.push(jsonResults.comment[i]);
-              $scope.jsObj.clicks.push(jsonResults.clicks[i]);
-              $scope.jsObj.business.push(jsonResults.business[i]);
-              $scope.jsObj.classification.push(jsonResults.classification[i]);
-              $scope.jsObj.context.push(jsonResults.context[i]);
-            }
+            console.log("Error", req.statusText);
           }
-          $scope.setDisplay = true;
-          $scope.text1 = true;
-          $scope.text2 = true;
-          $scope.$apply();
         }
-        else
-        {
-          console.log("Error", req.statusText);
-        }
-      }
+      };
       req.send(null);
     }
   }
@@ -196,27 +222,27 @@ app.controller("acronymCtrl", function($scope, $http, $location)
 /* Takes the business group that the acronym belongs to and links that group with its respective information page */
 function getGroupLink(business)
 {
-    if (business == "A&S - Architecture & Software")
+    if (business == "A&S")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/A&S.pdf'>" +business+ "</a>";
-    if (business == "CAT - Common Architecture & Technology")
+    if (business == "CAT")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CAT/CAT.pdf'>" +business+ "</a>";
-    if (business == "CP&S - Control Products & Solutions")
+    if (business == "CP&S")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CP&S.pdf'>" +business+ "</a>";
-    if (business == "CSM - Customer Support and Maintenance")
+    if (business == "CSM")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CSM/CSM.pdf'>" +business+ "</a>";
-    if (business == "CVB - Control and Visualization Business")
+    if (business == "CVB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/CVB/CVB.pdf'>" +business+ "</a>";
-    if (business == "GSM - Global Sales & Marketing")
+    if (business == "GSM")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/GSM.pdf'>" +business+ "</a>";
-    if (business == "HR - Human Resources")
+    if (business == "HR")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/HR.pdf'>" +business+ "</a>";
-    if (business == "IS - Information Software")
+    if (business == "IS")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB%20%E2%80%93%20Global%20IS%20Delivery.pdf'>" +business+ "</a>";
-    if (business == "ISPB - Information Software and Process Business")
+    if (business == "ISPB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/ISPB/ISPB.pdf'>" +business+ "</a>";
-    if (business == "SD - Strategic Development")
+    if (business == "SD")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SD.pdf'>" +business+ "</a>";
-    if (business == "SSB - Systems and Solutions Business")
+    if (business == "SSB")
         return "<a href='https://rockwellautomation.sharepoint.com/teams/AS/CVB/CVBInfoSoftware/Analytics%20Private%20Library/Architecture/RA%20ORG/SSB/SSB.pdf'>" +business+ "</a>";
     return business;
 }

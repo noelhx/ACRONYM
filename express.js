@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var favicon = require('serve-favicon');
 var path = require('path');
 var config = require('./config');   // MySQL database configuration file
+var PythonShell = require('python-shell');
 var app = express();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // Use favicon.ico
@@ -28,7 +29,7 @@ con.connect(function(err) {
     console.log("Successfully connected to acronym database.");
 });
 
-// Define routes here...
+// Routes defined here...
 
 /* Homepage */
 app.get('/', function (req, res)
@@ -36,33 +37,53 @@ app.get('/', function (req, res)
   return res.sendFile('C://WebApp2/index.html');
 });
 
-/* About page */
-app.get('/about', function (req, res)
+/* Route for when user clicks on a search result */
+app.post('/increment/:acronym/:definition', function(req, res)
 {
-  return res.sendFile('C://WebApp2/about.html');
-});
-
-/* Privacy policy page */
-app.get('/privacypolicy', function (req, res)
-{
-  return res.sendFile('C://WebApp2/privacypolicy.html');
-});
-
-/* Contact page */
-app.get('/contact', function (req, res)
-{
-  return res.sendFile('C://WebApp2/contact.html');
-});
-
-/* Route for when user clicks on search result and the acronym clicks needs to be incremented */
-app.post('/increment/:acronym', function(req, res)
-{
+  // Increment clicks of this acronym in database
   var acronym = decodeURIComponent(req.params.acronym);
   var sql = "UPDATE acronym_table SET clicks = clicks + 1 WHERE acronym = '" + acronym + "'";
   con.query(sql, function(err, result, fields)
   {
     if (err) throw err;
-    res.end();
+  });
+
+  // Get the info about this acronym from wikipedia page
+  var options = {
+    mode: 'text',
+    args: [req.params.definition]
+  };
+
+  var jsDescripObj = {   // javascript object containing this acronym's description and url from wikipedia page
+    description: "",
+    page_url: "",
+    businesses: ""
+  };
+
+  // use PythonShell to run wikiscrape.py to scrape info from wiki page
+  PythonShell.run('wikiscrape.py', options, function (err, results)
+  {
+    if (err)
+    {
+      jsDescripObj.description = "No description available";
+      jsDescripObj.page_url = "No page found";
+      jsDescripObj.businesses = "No group specified";
+      return res.json(-1);
+    }
+    else
+    {
+      var description = JSON.parse(results).description;
+      var page_url = JSON.parse(results).page_url;
+      var businesses = JSON.parse(results).businesses;
+
+      if (description == "No description available")
+          return res.json(-1);
+
+      jsDescripObj.description = description;
+      jsDescripObj.page_url = page_url;
+      jsDescripObj.businesses = businesses;
+      return res.json(jsDescripObj);
+    }
   });
 });
 
