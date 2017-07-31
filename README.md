@@ -4,6 +4,8 @@ A simple web application that allows users to search for acronyms that are commo
 # Background
 Every year, Rockwell Automation hosts the Innovation Challenge, a three month event where employees develop an idea that can improve Rockwell Automation. My team's idea was to create a web application that keeps track of the (thousands of) acronyms that employees use within Rockwell. My role was to develop the application prototype.
 
+# Files
+
 **express.js**
 
 An Express app that runs a node.js server and listens on port 5000.
