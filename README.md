@@ -25,3 +25,13 @@ Includes multiple lists of keywords that are used to identify what acronyms belo
 **wikiscrape.py**
 
 Python script I use to gather basic summary information about an acronym from its related Wikipedia page. Uses the Wikipedia python library, which uses the Beautiful Soup python library (commonly used for web scraping).
+
+# Folders
+
+**css, fonts, and js folders**
+
+Folders provided by Bootstrap web framework; includes compiled and minified versions of Bootstrap's CSS and JavaScript plugins.
+
+**public**
+
+Contains all the images that this app uses, including the Acronym Database image, magnifying glass favicon, and Rockwell Automation logo.
