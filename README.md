@@ -12,9 +12,9 @@ An Express app that runs a node.js server and listens on port 5000.
 
 **index.html**
 
-The main page of the acronym database. Main function is to display the search bar and allow users to type in the name of the acronym they are searching for.
+The main page of the acronym database. Main function is to display the search bar and allow users to type in the name of the acronym they are searching for. Uses AngularJS version 1.6.4.
 
-**javascript_functions**
+**javascript_functions.js**
 
 Includes all the JavaScript functions that this application uses.
 

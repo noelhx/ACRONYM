@@ -1,2 +1,4 @@
 # ignore the MySQL database configuration file
 config.js
+# ignore keywords.pyc
+keywords.pyc
