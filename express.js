@@ -7,7 +7,7 @@ var PythonShell = require('python-shell');
 var app = express();
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));  // Use favicon.ico
-app.use(express.static(path.join(__dirname, '/')));   // Use this directory (C://WebApp2/)
+app.use(express.static(path.join(__dirname, '/')));   // Use this directory (C://ACRONYM/)
 app.use(express.static(path.join(__dirname, 'public')));  // Use the /public folder
 
 var server = app.listen(5000, function () {
@@ -34,7 +34,7 @@ con.connect(function(err) {
 /* Homepage */
 app.get('/', function (req, res)
 {
-  return res.sendFile('C://WebApp2/index.html');
+  return res.sendFile('C://ACRONYM/index.html');
 });
 
 /* Route for when user clicks on a search result */
